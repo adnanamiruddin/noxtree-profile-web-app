@@ -1,9 +1,13 @@
+import { Inter } from "next/font/google";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
+
+const inter = Inter({ subsets: ["latin"] });
 
 const Preview = () => {
   return (
-    <div className="hero min-h-screen bg-base-200">
+    <div className={`hero min-h-screen ${inter.className}`}>
       <div className="hero-content flex-col-reverse lg:flex-row-reverse">
         <Image
           src="/preview.png"
@@ -19,7 +23,9 @@ const Preview = () => {
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
-          <button className="btn btn-primary">Get Started</button>
+          <Link href="/login">
+            <button className="btn btn-primary">Get Started</button>
+          </Link>
         </div>
       </div>
     </div>

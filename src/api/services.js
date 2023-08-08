@@ -1,4 +1,6 @@
 import api from ".";
+import nookies from "nookies";
+import Router from "next/router";
 
 const ENDPOINTS = {
   accounts: "/accounts",
@@ -36,32 +38,37 @@ const getAccountLinks = async (slug) => {
   }
 };
 
-const login = async (email, password) => {
+const login = async (account) => {
   try {
-    const response = await api.post(`/auth/local`, {
-      identifier: email,
-      password: password,
-    });
+    const response = await api.post(`/auth/local`, account);
 
     if (response.status === 200) {
       // Login berhasil
-      const userData = response.data;
-      console.log("Login successful. User data:", userData);
-      return userData;
+      // const userData = response.data;
+      // return userData;
+      nookies.set(null, "token", response.data.jwt);
+      Router.replace("/dashboard");
     } else {
       // Tangani jika permintaan login tidak berhasil
       throw new Error("Login failed");
     }
   } catch (error) {
-    // Tangani jika terjadi kesalahan saat melakukan login
-    console.error("Error during login:", error.message);
-    throw error;
+    throw Error(error);
   }
 };
 
-export {
-  getAllAccounts,
-  getSelectedAccount,
-  getAccountLinks,
-  login,
-};
+// const login = async (email, password) => {
+//   try {
+//     const response = await api.post(`/auth/local`, {
+//       identifier: email,
+//       password: password,
+//     });
+
+//   } catch (error) {
+//     // Tangani jika terjadi kesalahan saat melakukan login
+//     console.error("Error during login:", error.message);
+//     throw error;
+//   }
+// };
+
+export { getAllAccounts, getSelectedAccount, getAccountLinks, login };
