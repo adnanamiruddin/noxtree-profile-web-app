@@ -5,6 +5,7 @@ import Router from "next/router";
 const ENDPOINTS = {
   accounts: "/accounts",
   links: "/links",
+  users: "/users",
 };
 
 const getAllAccounts = async () => {
@@ -41,15 +42,10 @@ const getAccountLinks = async (slug) => {
 const login = async (account) => {
   try {
     const response = await api.post(`/auth/local`, account);
-
     if (response.status === 200) {
-      // Login berhasil
-      // const userData = response.data;
-      // return userData;
       nookies.set(null, "token", response.data.jwt);
       Router.replace("/dashboard");
     } else {
-      // Tangani jika permintaan login tidak berhasil
       throw new Error("Login failed");
     }
   } catch (error) {
@@ -57,18 +53,36 @@ const login = async (account) => {
   }
 };
 
-// const login = async (email, password) => {
-//   try {
-//     const response = await api.post(`/auth/local`, {
-//       identifier: email,
-//       password: password,
-//     });
+const createAccount = async (accountData, userId, token) => {
+  try {
+    const response = await api.post(`${ENDPOINTS.accounts}`, accountData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data", // Penting untuk mengatur tipe konten
+      },
+    });
 
-//   } catch (error) {
-//     // Tangani jika terjadi kesalahan saat melakukan login
-//     console.error("Error during login:", error.message);
-//     throw error;
-//   }
-// };
+    // Update user's account ID
+    await api.put(
+      `${ENDPOINTS.users}/${userId}`,
+      {
+        account: response.data.data.id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    throw Error(error);
+  }
+};
 
-export { getAllAccounts, getSelectedAccount, getAccountLinks, login };
+export {
+  getAllAccounts,
+  getSelectedAccount,
+  getAccountLinks,
+  login,
+  createAccount,
+};
