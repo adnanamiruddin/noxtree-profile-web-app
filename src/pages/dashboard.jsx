@@ -13,6 +13,7 @@ export default function Dashboard() {
     bio: "",
     slug: "",
     photo: null,
+    user: null,
   });
   const [token, setToken] = useState(null);
 
@@ -25,7 +26,7 @@ export default function Dashboard() {
     url: "",
     account: null,
   });
-  const [selectedAccount, setSelectedAccount] = useState(null);
+  // const [selectedAccount, setSelectedAccount] = useState(null);
 
   useEffect(() => {
     // Mengambil token JWT dari cookie menggunakan nookies
@@ -44,15 +45,14 @@ export default function Dashboard() {
           });
 
           if (response.status === 200) {
-            // Berhasil mendapatkan data pengguna
             setUserData(response.data);
+            setNewAccount({ ...newAccount, user: response.data.id });
             setUserAccount(response.data.account);
             setNewLink({ ...newLink, account: response.data.account.id });
 
             const links = await getAccountLinks(response.data.account.slug);
             setAccountLinks(links.data.data);
           } else {
-            // Tangani jika permintaan gagal
             console.error("Failed to fetch user data");
           }
         } catch (error) {
@@ -86,7 +86,7 @@ export default function Dashboard() {
   //     formData.append("data", JSON.stringify(newAccount)); // Mengirim data sebagai string JSON
   //     formData.append("files.photo", newAccount.photo); // Mengirim file gambar
 
-  //     await createAccount(formData, userData.id, token);
+  //     await createAccount(formData, token);
   //   } catch (error) {
   //     console.error("Error creating account:", error);
   //   }
@@ -120,6 +120,18 @@ export default function Dashboard() {
       await createLink(formData, userAccount, token);
     } catch (error) {
       console.error("Error creating account:", error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/links/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.error("Error deleting link:", error);
     }
   };
 
@@ -172,28 +184,14 @@ export default function Dashboard() {
                   alt="Selected"
                   className="mt-4 max-w-xs"
                 />
-              ) : ""}
+              ) : (
+                ""
+              )}
             </div>
             <button type="submit">SIMPAN</button>
           </form> */}
 
           <form onSubmit={handleSubmitLinks} className="flex flex-col my-14">
-            {/* <div className="form-control">
-              <div className="input-group">
-                <select
-                  className="select select-bordered"
-                  name="iconName"
-                  onChange={handleChangeInputLinks}
-                >
-                  <option disabled selected>
-                    Pick Category
-                  </option>
-                  <option value="instagram">Instagram</option>
-                  <option value="github">GitHub</option>
-                  <option value="linkedin">LinkedIn</option>
-                </select>
-              </div>
-            </div> */}
             <div className="flex flex-col">
               <label className="mr-4">Icon</label>
               <input
@@ -251,7 +249,6 @@ export default function Dashboard() {
 
           <div className="overflow-x-auto">
             <table className="table">
-              {/* head */}
               <thead>
                 <tr>
                   <th></th>

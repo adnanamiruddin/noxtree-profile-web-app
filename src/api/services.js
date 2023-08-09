@@ -53,63 +53,27 @@ const login = async (account) => {
   }
 };
 
-const createAccount = async (accountData, userId, token) => {
+const createAccount = async (accountData, token) => {
   try {
-    const response = await api.post(`${ENDPOINTS.accounts}`, accountData, {
+    await api.post(`${ENDPOINTS.accounts}`, accountData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });
-    await api.put(
-      `${ENDPOINTS.users}/${userId}`,
-      {
-        account: response.data.data.id,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
   } catch (error) {
     throw Error(error);
   }
 };
 
-const createLink = async (linkData, userAccount, token) => {
+const createLink = async (linkData, token) => {
   try {
-    const response = await api.post(`${ENDPOINTS.links}`, linkData, {
+    await api.post(`${ENDPOINTS.links}`, linkData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(response);
-
-    // const selectedAccount = await getSelectedAccount(userAccount.slug);
-    // const selectedAccountData = selectedAccount.data.data[0];
-    // // console.log(selectedAccountData);
-
-    // const newLink = response.data.data;
-    // const existingLinks = await getAccountLinks(userAccount.slug);
-    // const updateAccount = [...existingLinks.data.data, newLink];
-    // console.log(updateAccount);
-
-    // const up = await api.put(
-    //   `${ENDPOINTS.accounts}/${userAccount.id}`,
-    //   {
-    //     links: {
-    //       data: [...existingLinks.data.data, newLink],
-    //     },
-    //   },
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   }
-    // );
-    // console.log(up);
   } catch (error) {
     console.error(error);
     throw Error(error);
