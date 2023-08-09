@@ -58,11 +58,9 @@ const createAccount = async (accountData, userId, token) => {
     const response = await api.post(`${ENDPOINTS.accounts}`, accountData, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data", // Penting untuk mengatur tipe konten
+        "Content-Type": "multipart/form-data",
       },
     });
-
-    // Update user's account ID
     await api.put(
       `${ENDPOINTS.users}/${userId}`,
       {
@@ -79,10 +77,50 @@ const createAccount = async (accountData, userId, token) => {
   }
 };
 
+const createLink = async (linkData, userAccount, token) => {
+  try {
+    const response = await api.post(`${ENDPOINTS.links}`, linkData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log(response);
+
+    // const selectedAccount = await getSelectedAccount(userAccount.slug);
+    // const selectedAccountData = selectedAccount.data.data[0];
+    // // console.log(selectedAccountData);
+
+    // const newLink = response.data.data;
+    // const existingLinks = await getAccountLinks(userAccount.slug);
+    // const updateAccount = [...existingLinks.data.data, newLink];
+    // console.log(updateAccount);
+
+    // const up = await api.put(
+    //   `${ENDPOINTS.accounts}/${userAccount.id}`,
+    //   {
+    //     links: {
+    //       data: [...existingLinks.data.data, newLink],
+    //     },
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   }
+    // );
+    // console.log(up);
+  } catch (error) {
+    console.error(error);
+    throw Error(error);
+  }
+};
+
 export {
   getAllAccounts,
   getSelectedAccount,
   getAccountLinks,
   login,
   createAccount,
+  createLink,
 };
