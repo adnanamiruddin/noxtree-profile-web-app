@@ -80,17 +80,17 @@ export default function Dashboard() {
   };
 
   return (
-    <main className="flex">
+    <main className="lg:flex">
       <Sidebar />
-      <div className="p-12 w-full">
+      <div className="p-6 pt-12 lg:pt-12 w-full mt-12 lg:mt-0">
         <h1 className="text-4xl font-semibold mb-6">Dashboard</h1>
         {userData ? (
-          <div className="bg-gradient-to-l from-blue-950 to-transparent flex">
+          <div className="bg-gradient-to-l from-blue-950 to-transparent flex flex-col-reverse lg:flex-row">
             <form
               onSubmit={handleSubmit}
-              className="flex flex-wrap gap-10 py-8 pr-12 justify-between w-9/12"
+              className="flex flex-wrap gap-10 py-8 px-3 lg:pr-12 justify-between w-full lg:w-9/12"
             >
-              <div className="basis-2/4">
+              <div className="w-full lg:basis-2/4">
                 <Input
                   label="Full Name"
                   isRequire
@@ -100,7 +100,7 @@ export default function Dashboard() {
                 />
               </div>
 
-              <div className="basis-1/3">
+              <div className="w-full lg:basis-1/3">
                 <Input
                   label="URL"
                   isRequire
@@ -110,7 +110,7 @@ export default function Dashboard() {
                 />
               </div>
 
-              <div className="basis-2/4">
+              <div className="w-full lg:basis-2/4">
                 <TextArea
                   label="Bio"
                   name="bio"
@@ -119,7 +119,7 @@ export default function Dashboard() {
                 />
               </div>
 
-              <div className="flex flex-col basis-1/3 items-end">
+              <div className="flex flex-col w-full lg:basis-1/3 items-start lg:items-end">
                 <InputImage
                   label="Photo"
                   selectedImage={selectedImage}
@@ -129,7 +129,7 @@ export default function Dashboard() {
 
               <button
                 type="submit"
-                className="btn btn-primary basis-1/4 m-auto"
+                className="btn-primary basis-1/4 m-auto rounded-lg py-3 px-14 font-semibold text-white"
               >
                 SAVE
               </button>

@@ -9,7 +9,7 @@ const InputStatus = ({
   handleChange,
 }) => {
   return (
-    <>
+    <div className="flex flex-col">
       <label>
         {label}{" "}
         {isRequire ? <span className="text-red-500 align-middle">*</span> : ""}
@@ -28,7 +28,7 @@ const InputStatus = ({
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

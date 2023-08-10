@@ -20,12 +20,12 @@ export default function UserCard({ userData }) {
   }, [userData]);
 
   return (
-    <div className="w-3/12 bg-base-100 shadow-xl p-6 rounded-3xl rounded-tr-none">
+    <div className="w-full lg:w-3/12 bg-base-100 shadow-xl p-6 rounded-3xl rounded-r-none">
       <div className="card-body">
         <h2 className="text-xl font-semibold mb-2">
           {userData.account.fullname}
         </h2>
-        <p className="text-gray-600 mb-4">{userData.account.bio}</p>
+        <p className="text-gray-200 mb-4">{userData.account.bio}</p>
         <Link
           href={`/${userData.account.slug}`}
           className="text-blue-500 hover:underline"

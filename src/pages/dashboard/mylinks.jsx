@@ -136,18 +136,18 @@ export default function MyLinks() {
   };
 
   return (
-    <main className="flex">
+    <main className="lg:flex">
       <Sidebar />
-      <div className="p-12 w-full">
+      <div className="p-6 pt-12 lg:pt-12 w-full mt-12 lg:mt-0">
         <h1 className="text-4xl font-semibold mb-6">Dashboard</h1>
-        {userData ? (
-          <div className="bg-gradient-to-l from-blue-950 to-transparent">
-            <div className="flex">
+        <div>
+          {userData ? (
+            <div className="bg-gradient-to-l from-blue-950 to-transparent flex flex-col-reverse lg:flex-row lg:py-8">
               <form
                 onSubmit={handleSubmit}
-                className="flex flex-wrap gap-10 py-8 pr-12 justify-between w-9/12"
+                className="flex flex-wrap gap-10 py-8 px-3 lg:pr-12 justify-between w-full lg:w-9/12"
               >
-                <div className="basis-2/4">
+                <div className="w-full lg:basis-2/4">
                   <Input
                     label="Title"
                     isRequire
@@ -158,7 +158,7 @@ export default function MyLinks() {
                   />
                 </div>
 
-                <div className="basis-1/3">
+                <div className="w-full lg:basis-1/3">
                   <InputStatus
                     label="Status"
                     isRequire
@@ -175,7 +175,7 @@ export default function MyLinks() {
                   />
                 </div>
 
-                <div className="basis-2/4">
+                <div className="w-full lg:basis-2/4">
                   <Input
                     label="Link"
                     isRequire
@@ -186,7 +186,7 @@ export default function MyLinks() {
                   />
                 </div>
 
-                <div className="flex flex-col basis-1/3 items-end">
+                <div className="flex flex-col w-full lg:basis-1/3 items-start lg:items-end">
                   <InputImage
                     label="Icon"
                     selectedImage={selectedImage}
@@ -194,9 +194,10 @@ export default function MyLinks() {
                     // value={isEditing ? editingLink.icon : newLink.icon.data.attributes.formats.small}
                   />
                 </div>
+
                 <button
                   type="submit"
-                  className="btn btn-primary basis-1/4 m-auto"
+                  className="btn-primary basis-1/4 m-auto rounded-lg py-3 px-14 font-semibold text-white"
                 >
                   SAVE
                 </button>
@@ -204,17 +205,22 @@ export default function MyLinks() {
 
               <UserCard userData={userData} />
             </div>
-
-            <div className="divider" />
-
-            <div className="flex flex-col">
-              <p className="text-3xl font-bold self-center my-10">My Links</p>
-              <LinksTable
-                accountLinks={accountLinks}
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
-              />
-            </div>
+          ) : (
+            ""
+          )}
+        </div>
+        {accountLinks ? (
+          <div className="flex flex-col">
+            <div className="divider mt-12 mb-8" />
+            <p className="text-3xl font-bold self-center mb-4">My Links</p>
+            <p className="text-sm self-center mb-8">
+              You can edit and delete links by swiping right
+            </p>
+            <LinksTable
+              accountLinks={accountLinks}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
           </div>
         ) : (
           ""
