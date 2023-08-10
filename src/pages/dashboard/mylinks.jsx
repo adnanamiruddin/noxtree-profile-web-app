@@ -13,6 +13,7 @@ import Input from "@/components/Input";
 import InputImage from "@/components/InputImage";
 import InputStatus from "@/components/InputStatus";
 import UserCard from "@/components/UserCard";
+import Loading from "@/components/Loading";
 
 export default function MyLinks() {
   const [userData, setUserData] = useState(null);
@@ -35,37 +36,37 @@ export default function MyLinks() {
   });
   const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    const cookies = nookies.get();
-    const token = cookies.token;
+  // useEffect(() => {
+  //   const cookies = nookies.get();
+  //   const token = cookies.token;
 
-    if (token) {
-      setToken(token);
-      const fetchUserData = async () => {
-        try {
-          const response = await api.get("/users/me?populate=*", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+  //   if (token) {
+  //     setToken(token);
+  //     const fetchUserData = async () => {
+  //       try {
+  //         const response = await api.get("/users/me?populate=*", {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         });
 
-          if (response.status === 200) {
-            setUserData(response.data);
-            setNewLink({ ...newLink, account: response.data.account.id });
+  //         if (response.status === 200) {
+  //           setUserData(response.data);
+  //           setNewLink({ ...newLink, account: response.data.account.id });
 
-            const links = await getAccountLinks(response.data.account.slug);
-            setAccountLinks(links.data.data);
-          } else {
-            console.error("Failed to fetch user data");
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      };
+  //           const links = await getAccountLinks(response.data.account.slug);
+  //           setAccountLinks(links.data.data);
+  //         } else {
+  //           console.error("Failed to fetch user data");
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching user data:", error);
+  //       }
+  //     };
 
-      fetchUserData();
-    }
-  }, []);
+  //     fetchUserData();
+  //   }
+  // }, []);
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -141,6 +142,22 @@ export default function MyLinks() {
       <div className="p-6 pt-12 lg:pt-12 w-full mt-12 lg:mt-0">
         <h1 className="text-4xl font-semibold mb-6">Dashboard</h1>
         <div>
+          {accountLinks ? (
+            <div className="flex flex-col mb-14">
+              <div className="divider" />
+              <p className="text-3xl font-bold self-center mb-4">My Links</p>
+              <p className="text-sm self-center mb-8">
+                You can edit and delete links by swiping right
+              </p>
+              <LinksTable
+                accountLinks={accountLinks}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+              />
+            </div>
+          ) : (
+            <Loading />
+          )}
           {userData ? (
             <div className="bg-gradient-to-l from-blue-950 to-transparent flex flex-col-reverse lg:flex-row lg:py-8">
               <form
@@ -206,25 +223,9 @@ export default function MyLinks() {
               <UserCard userData={userData} />
             </div>
           ) : (
-            ""
+            <Loading />
           )}
         </div>
-        {accountLinks ? (
-          <div className="flex flex-col">
-            <div className="divider mt-12 mb-8" />
-            <p className="text-3xl font-bold self-center mb-4">My Links</p>
-            <p className="text-sm self-center mb-8">
-              You can edit and delete links by swiping right
-            </p>
-            <LinksTable
-              accountLinks={accountLinks}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-            />
-          </div>
-        ) : (
-          ""
-        )}
       </div>
     </main>
   );

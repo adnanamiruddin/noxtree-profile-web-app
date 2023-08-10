@@ -29,6 +29,8 @@ export default function UserCard({ userData }) {
         <Link
           href={`/${userData.account.slug}`}
           className="text-blue-500 hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           {userData.account.slug}
         </Link>
