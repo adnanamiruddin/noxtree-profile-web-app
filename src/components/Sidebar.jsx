@@ -53,7 +53,7 @@ export default function Sidebar() {
       </aside>
 
       {/* Mobile View */}
-      <aside className="bg-gray-800 text-white py-5 md:py-6 px-2 flex lg:hidden justify-between w-full items-center fixed top-0">
+      <aside className="bg-gray-800 text-white py-5 md:py-6 px-2 flex lg:hidden justify-between w-full items-center fixed top-0 z-10">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold ml-2">
           NoxTree
         </h1>

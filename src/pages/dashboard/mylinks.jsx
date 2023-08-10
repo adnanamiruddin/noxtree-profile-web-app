@@ -16,6 +16,9 @@ import UserCard from "@/components/UserCard";
 import Loading from "@/components/Loading";
 import ButtonSubmit from "@/components/ButtonSubmit";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function MyLinks() {
   const [userData, setUserData] = useState({
     account: {
@@ -89,7 +92,8 @@ export default function MyLinks() {
     if (file) {
       const imageURL = URL.createObjectURL(file);
       setSelectedImage(imageURL);
-      setNewLink({ ...newLink, icon: file });
+      if (!isEditing) setNewLink({ ...newLink, icon: file });
+      else setEditingLink({ ...editingLink, icon: file });
     }
   };
 
@@ -101,11 +105,13 @@ export default function MyLinks() {
       if (isEditing) {
         formData.append("data", JSON.stringify(editingLink));
         formData.append("files.icon", editingLink.icon);
+
         const success = await updateLink(editingLinkId, formData, token);
         if (success) {
           const links = await getAccountLinks(userData.account.slug);
           setAccountLinks(links.data.data);
           setIsEditing(false);
+          toast.success("Link updated successfully!");
         }
       } else {
         formData.append("data", JSON.stringify(newLink));
@@ -120,9 +126,10 @@ export default function MyLinks() {
             status: "active",
             icon: null,
             url: "",
-            account: null,
+            account: userData.account.id,
           });
           setSelectedImage(null);
+          toast.success("Link created successfully!");
         }
       }
     } catch (error) {
@@ -149,6 +156,13 @@ export default function MyLinks() {
         setEditingLinkId(linkToEdit.id);
         setEditingLink(linkToEdit.attributes);
         setIsEditing(true);
+        if (linkToEdit.attributes.icon?.data?.attributes?.url) {
+          setSelectedImage(
+            `${process.env.NEXT_PUBLIC_ASSET_URL}${linkToEdit.attributes.icon.data.attributes.url}`
+          );
+        } else {
+          setSelectedImage(null); // Atau sesuaikan dengan nilai default yang diinginkan
+        }
       }
     } catch (error) {
       console.error("Error editting link:", error);
@@ -157,6 +171,16 @@ export default function MyLinks() {
 
   return (
     <main className="lg:flex">
+      <ToastContainer
+        position="bottom-right"
+        autoClose={4000}
+        theme="dark"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        pauseOnHover
+      />
       <Sidebar />
       <div className="p-6 lg:p-12 pt-12 w-full mt-12 sm:mt-16 lg:mt-0">
         <h1 className="text-4xl font-semibold">Dashboard</h1>
