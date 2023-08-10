@@ -149,12 +149,12 @@ export default function MyLinks() {
   return (
     <main className="lg:flex">
       <Sidebar />
-      <div className="p-6 lg:p-12 pt-12 w-full mt-12 lg:mt-0">
-        <h1 className="text-4xl font-semibold mb-6">Dashboard</h1>
+      <div className="p-6 lg:p-12 pt-12 w-full mt-12 sm:mt-16 lg:mt-0">
+        <h1 className="text-4xl font-semibold">Dashboard</h1>
+        <div className="divider my-6" />
         <div>
           {accountLinks ? (
             <div className="flex flex-col mb-14">
-              <div className="divider" />
               <p className="text-3xl font-bold self-center mb-4">My Links</p>
               <p className="text-sm self-center mb-8">
                 You can edit and delete links by swiping right

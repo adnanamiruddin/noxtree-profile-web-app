@@ -91,8 +91,9 @@ export default function Dashboard() {
   return (
     <main className="lg:flex">
       <Sidebar />
-      <div className="p-6 lg:p-12 pt-12 w-full mt-12 lg:mt-0">
-        <h1 className="text-4xl font-semibold mb-6">Dashboard</h1>
+      <div className="p-6 lg:p-12 pt-12 w-full mt-12 sm:mt-16 lg:mt-0">
+        <h1 className="text-4xl font-semibold">Dashboard</h1>
+        <div className="divider my-6" />
         {userData ? (
           <div className="bg-gradient-to-l from-blue-950 to-transparent flex flex-col-reverse lg:flex-row">
             <form
@@ -136,7 +137,13 @@ export default function Dashboard() {
                 />
               </div>
 
-              <ButtonSubmit />
+              <ButtonSubmit
+                disabled={
+                  userData.account.fullname === "(Your Full Name...)"
+                    ? true
+                    : false
+                }
+              />
             </form>
 
             <UserCard userData={userData} />

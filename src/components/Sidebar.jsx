@@ -1,8 +1,14 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
+import nookies from "nookies";
 
 export default function Sidebar() {
   const router = useRouter();
+
+  const handleLogout = () => {
+    nookies.destroy(null, "token");
+    Router.replace("/");
+  };
 
   return (
     <>
@@ -10,7 +16,7 @@ export default function Sidebar() {
         <div>
           <h1 className="text-3xl font-semibold mb-4">NoxTree</h1>
           <div className="divider"></div>
-          <ul>
+          <ul className="mt-auto">
             <Link href="/dashboard">
               <li
                 className={`hover:bg-gray-700 p-2 pl-4 mb-3 rounded cursor-pointer font-semibold ${
@@ -35,17 +41,26 @@ export default function Sidebar() {
             </Link>
           </ul>
         </div>
-        <div className="mb-4">
-          <p className="text-sm">Logged in as John Doe</p>
-        </div>
+        <ul>
+          <li
+            className={`bg-red-700 hover:brightness-125 py-2 px-4 rounded cursor-pointer text-xs sm:text-base font-semibold lg:-mt-10 xl:-mt-24`}
+          >
+            <button onClick={handleLogout} className="text-white">
+              Logout
+            </button>
+          </li>
+        </ul>
       </aside>
 
-      <aside className="bg-gray-800 text-white p-4 flex lg:hidden justify-between w-full items-center fixed top-0">
-        <h1 className="text-2xl font-bold ml-2">NoxTree</h1>
-        <ul className="flex gap-1">
+      {/* Mobile View */}
+      <aside className="bg-gray-800 text-white py-5 md:py-6 px-2 flex lg:hidden justify-between w-full items-center fixed top-0">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold ml-2">
+          NoxTree
+        </h1>
+        <ul className="flex gap-1 sm:gap-4">
           <Link href="/dashboard">
             <li
-              className={`hover:bg-gray-700 py-2 px-4 rounded cursor-pointer text-sm sm:text-base font-semibold ${
+              className={`hover:bg-gray-700 py-2 px-3 rounded cursor-pointer text-xs sm:text-base font-semibold ${
                 router.pathname === "/dashboard"
                   ? "bg-blue-600 cursor-default"
                   : ""
@@ -56,7 +71,7 @@ export default function Sidebar() {
           </Link>
           <Link href="/dashboard/mylinks">
             <li
-              className={`hover:bg-gray-700 py-2 px-4 rounded cursor-pointer text-sm sm:text-base font-semibold ${
+              className={`hover:bg-gray-700 py-2 px-4 rounded cursor-pointer text-xs sm:text-base font-semibold ${
                 router.pathname === "/dashboard/mylinks"
                   ? "bg-blue-600 cursor-default"
                   : ""
@@ -65,6 +80,13 @@ export default function Sidebar() {
               <p>My Links</p>
             </li>
           </Link>
+          <li
+            className={`bg-red-700 hover:brightness-125 py-2 px-4 rounded cursor-pointer text-xs sm:text-base font-semibold`}
+          >
+            <button onClick={handleLogout} className="text-white">
+              Logout
+            </button>
+          </li>
         </ul>
       </aside>
     </>
