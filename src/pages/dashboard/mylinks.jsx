@@ -12,6 +12,7 @@ import {
 import Input from "@/components/Input";
 import InputImage from "@/components/InputImage";
 import InputStatus from "@/components/InputStatus";
+import UserCard from "@/components/UserCard";
 
 export default function MyLinks() {
   const [userData, setUserData] = useState(null);
@@ -139,12 +140,12 @@ export default function MyLinks() {
       <Sidebar />
       <div className="p-12 w-full">
         <h1 className="text-4xl font-semibold mb-6">Dashboard</h1>
-        <div className="bg-gradient-to-l from-blue-950 to-transparent">
-          {userData ? (
-            <>
+        {userData ? (
+          <div className="bg-gradient-to-l from-blue-950 to-transparent">
+            <div className="flex">
               <form
                 onSubmit={handleSubmit}
-                className="flex flex-wrap gap-10 py-8 pr-32 justify-between w-5/6"
+                className="flex flex-wrap gap-10 py-8 pr-12 justify-between w-9/12"
               >
                 <div className="basis-2/4">
                   <Input
@@ -201,21 +202,23 @@ export default function MyLinks() {
                 </button>
               </form>
 
-              <div className="divider"></div>
+              <UserCard userData={userData} />
+            </div>
 
-              <div className="flex flex-col">
-                <p className="text-3xl font-bold self-center my-10">My Links</p>
-                <LinksTable
-                  accountLinks={accountLinks}
-                  handleEdit={handleEdit}
-                  handleDelete={handleDelete}
-                />
-              </div>
-            </>
-          ) : (
-            ""
-          )}
-        </div>
+            <div className="divider" />
+
+            <div className="flex flex-col">
+              <p className="text-3xl font-bold self-center my-10">My Links</p>
+              <LinksTable
+                accountLinks={accountLinks}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+              />
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </main>
   );

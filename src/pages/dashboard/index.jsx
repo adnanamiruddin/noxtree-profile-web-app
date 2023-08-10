@@ -6,6 +6,9 @@ import Input from "@/components/Input";
 import InputImage from "@/components/InputImage";
 import TextArea from "@/components/TextArea";
 import Image from "next/image";
+import { getAccountLinks, getSelectedAccount } from "@/api/services";
+import Link from "next/link";
+import UserCard from "@/components/UserCard";
 
 export default function Dashboard() {
   const [userData, setUserData] = useState(null);
@@ -36,10 +39,6 @@ export default function Dashboard() {
           if (response.status === 200) {
             setUserData(response.data);
             setNewAccount({ ...newAccount, user: response.data.id });
-            setNewLink({ ...newLink, account: response.data.account.id });
-
-            const links = await getAccountLinks(response.data.account.slug);
-            setAccountLinks(links.data.data);
           } else {
             console.error("Failed to fetch user data");
           }
@@ -52,6 +51,11 @@ export default function Dashboard() {
     }
   }, []);
 
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+    setNewAccount({ ...newAccount, [name]: value });
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -59,12 +63,6 @@ export default function Dashboard() {
       setSelectedImage(imageURL);
       setNewAccount({ ...newAccount, photo: file });
     }
-  };
-
-  const handleChangeInput = (e) => {
-    const { name, value } = e.target;
-    setNewAccount({ ...newAccount, [name]: value });
-    console.log(userData);
   };
 
   const handleSubmit = async (e) => {
@@ -90,7 +88,7 @@ export default function Dashboard() {
           <div className="bg-gradient-to-l from-blue-950 to-transparent flex">
             <form
               onSubmit={handleSubmit}
-              className="flex flex-wrap gap-10 py-8 pr-12 justify-between w-4/6"
+              className="flex flex-wrap gap-10 py-8 pr-12 justify-between w-9/12"
             >
               <div className="basis-2/4">
                 <Input
@@ -137,21 +135,7 @@ export default function Dashboard() {
               </button>
             </form>
 
-            <div className="card w-2/6 bg-base-100 shadow-xl">
-              <figure>
-                {/* <Image
-                  src={}
-                  alt="Shoes"
-                /> */}
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">Shoes!</h2>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
-                <div className="card-actions justify-end">
-                  <button className="btn btn-primary">Buy Now</button>
-                </div>
-              </div>
-            </div>
+            <UserCard userData={userData} />
           </div>
         ) : (
           ""
