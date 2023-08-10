@@ -2,6 +2,7 @@ import { login } from "@/api/services";
 import { useState } from "react";
 import nookies from "nookies";
 import Input from "@/components/Input";
+import Link from "next/link";
 
 export default function Login() {
   const [fields, setFields] = useState({
@@ -20,15 +21,16 @@ export default function Login() {
     e.preventDefault();
     login(fields);
   };
+
   return (
-    <div className="hero min-h-screen bg-base-200">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="text-center lg:ml-12 lg:text-left">
-          <h1 className="text-5xl font-bold">Login now!</h1>
-          <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
+    <div className="hero min-h-screen">
+      <div className="hero-content flex-col lg:flex-row-reverse p-8">
+        <div className="text-center lg:ml-12 lg:text-left lg:w-3/6">
+          <h1 className="text-5xl font-bold text-center tracking-wide">
+            Login now!
+          </h1>
+          <p className="pt-10 pb-4 text-center">
+            Welcome back! Log in to manage your links and share your content.
           </p>
         </div>
 
@@ -63,6 +65,12 @@ export default function Login() {
               </button>
             </div>
           </form>
+
+          <Link href="/register">
+            <button className="text-blue-600 hover:underline text-sm w-full pb-8">
+              Do not have an account? Click for registration
+            </button>
+          </Link>
         </div>
       </div>
     </div>

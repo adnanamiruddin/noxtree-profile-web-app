@@ -2,6 +2,7 @@ import { register } from "@/api/services";
 import Input from "@/components/Input";
 import { useState } from "react";
 import nookies from "nookies";
+import Link from "next/link";
 
 export default function Register() {
   const [fields, setFields] = useState({
@@ -25,14 +26,15 @@ export default function Register() {
   };
 
   return (
-    <div className="hero min-h-screen bg-base-200">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Register now!</h1>
-          <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
+    <div className="hero min-h-screen">
+      <div className="hero-content flex-col lg:flex-row-reverse p-9">
+        <div className="text-center lg:ml-12 lg:text-left lg:w-3/6">
+          <h1 className="text-5xl font-bold text-center tracking-wide leading-tight">
+            Register now!
+          </h1>
+          <p className="pt-10 pb-4 text-center">
+            Lets create your account to start managing your links and sharing
+            your content with ease
           </p>
         </div>
 
@@ -77,6 +79,12 @@ export default function Register() {
               </button>
             </div>
           </form>
+
+          <Link href="/login">
+            <button className="text-blue-600 hover:underline text-sm w-full pb-8">
+              Already have an account? Click for login
+            </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 
-const Hero = () => {
+const Hero = ({ handlePreviewClick }) => {
+
   return (
     <div
-      className="hero min-h-screen"
+      className="hero min-h-screen mt-16"
       style={{
         backgroundImage:
           "url(https://daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.jpg)",
@@ -18,7 +19,9 @@ const Hero = () => {
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
-          <button className="btn btn-primary">PREVIEW</button>
+          <button className="btn btn-primary" onClick={handlePreviewClick}>
+            PREVIEW
+          </button>
         </div>
       </div>
     </div>

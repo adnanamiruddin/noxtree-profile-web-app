@@ -5,14 +5,14 @@ import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const Preview = () => {
+const Preview = ({ previewRef }) => {
   return (
-    <div className={`hero min-h-screen ${inter.className}`}>
+    <div className={`hero min-h-screen ${inter.className}`} ref={previewRef}>
       <div className="hero-content flex-col-reverse lg:flex-row-reverse">
         <Image
           src="/preview.png"
-          width={500}
-          height={500}
+          width={300}
+          height={300}
           alt="Picture of the author"
           className="max-w-sm rounded-lg shadow-2xl mt-8"
         />
@@ -24,7 +24,7 @@ const Preview = () => {
             a id nisi.
           </p>
           <Link href="/login">
-            <button className="btn btn-primary">Get Started</button>
+            <button className="btn btn-primary">START</button>
           </Link>
         </div>
       </div>
