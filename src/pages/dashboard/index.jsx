@@ -95,7 +95,7 @@ export default function Dashboard() {
                 </label>
                 <Input
                   name="fullname"
-                  placeholder="John Doe..."
+                  placeholder="Your Name..."
                   handleChangeInput={handleChangeInput}
                 />
               </div>
@@ -106,7 +106,7 @@ export default function Dashboard() {
                 </label>
                 <Input
                   name="slug"
-                  placeholder="John Doe..."
+                  placeholder="your.name"
                   handleChangeInput={handleChangeInput}
                 />
               </div>
@@ -116,7 +116,7 @@ export default function Dashboard() {
                 <textarea
                   type="text"
                   name="bio"
-                  placeholder="Type here"
+                  placeholder="I am..."
                   onChange={handleChangeInput}
                   className="input input-bordered w-full h-32 p-4 resize-none focus:border-2 focus:border-blue-500 mt-1 active:shadow-lg"
                 />
