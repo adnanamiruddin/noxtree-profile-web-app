@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import nookies from "nookies";
 import api from "@/api";
 import Image from "next/image";
-import { createAccount, createLink, getAccountLinks } from "@/api/services";
+import {
+  createAccount,
+  createLink,
+  deleteLink,
+  getAccountLinks,
+  updateLink,
+} from "@/api/services";
 
 export default function Dashboard() {
   const [userData, setUserData] = useState(null);
@@ -26,7 +32,14 @@ export default function Dashboard() {
     url: "",
     account: null,
   });
-  // const [selectedAccount, setSelectedAccount] = useState(null);
+  const [editingLinkId, setEditingLinkId] = useState(null);
+  const [editingLink, setEditingLink] = useState({
+    title: "",
+    status: "active",
+    icon: null,
+    url: "",
+  });
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     // Mengambil token JWT dari cookie menggunakan nookies
@@ -64,38 +77,13 @@ export default function Dashboard() {
     }
   }, []);
 
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const imageURL = URL.createObjectURL(file);
-  //     setSelectedImage(imageURL);
-  //     setNewAccount({ ...newAccount, photo: file });
-  //   }
-  // };
 
-  // const handleChangeInput = (e) => {
-  //   const { name, value } = e.target;
-  //   setNewAccount({ ...newAccount, [name]: value });
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const formData = new FormData();
-
-  //     formData.append("data", JSON.stringify(newAccount)); // Mengirim data sebagai string JSON
-  //     formData.append("files.photo", newAccount.photo); // Mengirim file gambar
-
-  //     await createAccount(formData, token);
-  //   } catch (error) {
-  //     console.error("Error creating account:", error);
-  //   }
-  // };
 
   // ---------------------
   const handleChangeInputLinks = (e) => {
     const { name, value } = e.target;
-    setNewLink({ ...newLink, [name]: value });
+    if (!isEditing) setNewLink({ ...newLink, [name]: value });
+    else setEditingLink({ ...editingLink, [name]: value });
   };
 
   const handleIconChange = (e) => {
@@ -112,12 +100,24 @@ export default function Dashboard() {
     try {
       const formData = new FormData();
 
-      console.log(newLink);
-
-      formData.append("data", JSON.stringify(newLink));
-      formData.append("files.icon", newLink.icon);
-
-      await createLink(formData, userAccount, token);
+      if (isEditing) {
+        formData.append("data", JSON.stringify(editingLink));
+        formData.append("files.icon", editingLink.icon);
+        const success = await updateLink(editingLinkId, formData, token);
+        if (success) {
+          const links = await getAccountLinks(userAccount.slug);
+          setAccountLinks(links.data.data);
+          setIsEditing(false);
+        }
+      } else {
+        formData.append("data", JSON.stringify(newLink));
+        formData.append("files.icon", newLink.icon);
+        const success = await createLink(formData, userAccount, token);
+        if (success) {
+          const links = await getAccountLinks(userAccount.slug);
+          setAccountLinks(links.data.data);
+        }
+      }
     } catch (error) {
       console.error("Error creating account:", error);
     }
@@ -125,13 +125,26 @@ export default function Dashboard() {
 
   const handleDelete = async (id) => {
     try {
-      await api.delete(`/links/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const success = await deleteLink(id, token);
+      if (success) {
+        const links = await getAccountLinks(userAccount.slug);
+        setAccountLinks(links.data.data);
+      }
     } catch (error) {
       console.error("Error deleting link:", error);
+    }
+  };
+
+  const handleEdit = async (id) => {
+    try {
+      const linkToEdit = accountLinks.find((link) => link.id === id);
+      if (linkToEdit) {
+        setEditingLinkId(linkToEdit.id);
+        setEditingLink(linkToEdit.attributes);
+        setIsEditing(true);
+      }
+    } catch (error) {
+      console.error("Error editting link:", error);
     }
   };
 
@@ -143,53 +156,7 @@ export default function Dashboard() {
           <h1>Welcome, {userAccount?.fullname}!</h1>
           <p>Email: {userData.email}</p>
 
-          {/* <form onSubmit={handleSubmit} className="flex flex-col">
-            <label className="mr-4">Full Name</label>
-            <input
-              type="text"
-              name="fullname"
-              placeholder="Type here"
-              onChange={handleChangeInput}
-              className="input input-bordered w-full max-w-xs"
-            />
-            <label className="mr-4">Bio</label>
-            <input
-              type="text"
-              name="bio"
-              placeholder="Type here"
-              onChange={handleChangeInput}
-              className="input input-bordered w-full max-w-xs"
-            />
-            <label className="mr-4">URL</label>
-            <input
-              type="text"
-              name="slug"
-              placeholder="Type here"
-              onChange={handleChangeInput}
-              className="input input-bordered w-full max-w-xs"
-            />
-            <div className="flex flex-col">
-              <label className="mr-4">Photo</label>
-              <input
-                type="file"
-                name="photo"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
-              {selectedImage ? (
-                <Image
-                  width={500}
-                  height={500}
-                  src={selectedImage}
-                  alt="Selected"
-                  className="mt-4 max-w-xs"
-                />
-              ) : (
-                ""
-              )}
-            </div>
-            <button type="submit">SIMPAN</button>
-          </form> */}
+          
 
           <form onSubmit={handleSubmitLinks} className="flex flex-col my-14">
             <div className="flex flex-col">
@@ -199,6 +166,7 @@ export default function Dashboard() {
                 name="photo"
                 accept="image/*"
                 onChange={handleIconChange}
+                // value={isEditing ? editingLink.icon : newLink.icon.data.attributes.formats.small}
               />
               {selectedImage ? (
                 <Image
@@ -219,6 +187,7 @@ export default function Dashboard() {
               placeholder="Type here"
               onChange={handleChangeInputLinks}
               className="input input-bordered w-full max-w-xs"
+              value={isEditing ? editingLink.title : newLink.title}
             />
             <div className="form-control">
               <div className="input-group">
@@ -226,6 +195,7 @@ export default function Dashboard() {
                   className="select select-bordered"
                   name="status"
                   onChange={handleChangeInputLinks}
+                  value={isEditing ? editingLink.status : newLink.status}
                 >
                   <option disabled selected>
                     Status
@@ -243,6 +213,7 @@ export default function Dashboard() {
               placeholder="Type here"
               onChange={handleChangeInputLinks}
               className="input input-bordered w-full max-w-xs"
+              value={isEditing ? editingLink.url : newLink.url}
             />
             <button type="submit">SIMPAN</button>
           </form>

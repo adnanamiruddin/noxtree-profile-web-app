@@ -61,6 +61,7 @@ const createAccount = async (accountData, token) => {
         "Content-Type": "multipart/form-data",
       },
     });
+    return true;
   } catch (error) {
     throw Error(error);
   }
@@ -74,6 +75,35 @@ const createLink = async (linkData, token) => {
         "Content-Type": "multipart/form-data",
       },
     });
+    return true;
+  } catch (error) {
+    throw Error(error);
+  }
+};
+
+const deleteLink = async (linkId, token) => {
+  try {
+    await api.delete(`${ENDPOINTS.links}/${linkId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return true;
+  } catch (error) {
+    throw Error(error);
+  }
+};
+
+const updateLink = async (linkId, linkData, token) => {
+  try {
+    const response = await api.put(`${ENDPOINTS.links}/${linkId}`, linkData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log(response);
+    return true;
   } catch (error) {
     console.error(error);
     throw Error(error);
@@ -87,4 +117,6 @@ export {
   login,
   createAccount,
   createLink,
+  deleteLink,
+  updateLink,
 };
