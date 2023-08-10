@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import nookies from "nookies";
 import api from "@/api";
 import Image from "next/image";
+import Input from "@/components/Input";
 
 export default function Dashboard() {
   const [userData, setUserData] = useState(null);
-  const [userAccount, setUserAccount] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
   const [newAccount, setNewAccount] = useState({
     fullname: "",
@@ -30,12 +30,10 @@ export default function Dashboard() {
               Authorization: `Bearer ${token}`,
             },
           });
-          console.log(response);
 
           if (response.status === 200) {
             setUserData(response.data);
             setNewAccount({ ...newAccount, user: response.data.id });
-            setUserAccount(response.data.account);
             setNewLink({ ...newLink, account: response.data.account.id });
 
             const links = await getAccountLinks(response.data.account.slug);
@@ -95,12 +93,10 @@ export default function Dashboard() {
                 <label>
                   Full Name <span className="text-red-500 align-middle">*</span>
                 </label>
-                <input
-                  type="text"
+                <Input
                   name="fullname"
-                  placeholder="Type here"
-                  onChange={handleChangeInput}
-                  className="input input-bordered w-full mt-1 focus:border-2 focus:border-blue-500 active:shadow-lg"
+                  placeholder="John Doe..."
+                  handleChangeInput={handleChangeInput}
                 />
               </div>
 
@@ -108,12 +104,10 @@ export default function Dashboard() {
                 <label>
                   URL <span className="text-red-500 align-middle">*</span>
                 </label>
-                <input
-                  type="text"
+                <Input
                   name="slug"
-                  placeholder="Type here"
-                  onChange={handleChangeInput}
-                  className="input input-bordered w-full mt-1 focus:border-2 focus:border-blue-500 active:shadow-lg"
+                  placeholder="John Doe..."
+                  handleChangeInput={handleChangeInput}
                 />
               </div>
 
