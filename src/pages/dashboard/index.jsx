@@ -2,10 +2,10 @@ import Sidebar from "@/components/Sidebar";
 import { useState, useEffect } from "react";
 import nookies from "nookies";
 import api from "@/api";
-import Image from "next/image";
 import Input from "@/components/Input";
 import InputImage from "@/components/InputImage";
 import TextArea from "@/components/TextArea";
+import Image from "next/image";
 
 export default function Dashboard() {
   const [userData, setUserData] = useState(null);
@@ -64,6 +64,7 @@ export default function Dashboard() {
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
     setNewAccount({ ...newAccount, [name]: value });
+    console.log(userData);
   };
 
   const handleSubmit = async (e) => {
@@ -85,11 +86,11 @@ export default function Dashboard() {
       <Sidebar />
       <div className="p-12 w-full">
         <h1 className="text-4xl font-semibold mb-6">Dashboard</h1>
-        <div className="bg-gradient-to-l from-blue-950 to-transparent">
-          {userData ? (
+        {userData ? (
+          <div className="bg-gradient-to-l from-blue-950 to-transparent flex">
             <form
               onSubmit={handleSubmit}
-              className="flex flex-wrap gap-10 py-8 pr-32 justify-between w-5/6"
+              className="flex flex-wrap gap-10 py-8 pr-12 justify-between w-4/6"
             >
               <div className="basis-2/4">
                 <Input
@@ -135,10 +136,26 @@ export default function Dashboard() {
                 SAVE
               </button>
             </form>
-          ) : (
-            ""
-          )}
-        </div>
+
+            <div className="card w-2/6 bg-base-100 shadow-xl">
+              <figure>
+                {/* <Image
+                  src={}
+                  alt="Shoes"
+                /> */}
+              </figure>
+              <div className="card-body">
+                <h2 className="card-title">Shoes!</h2>
+                <p>If a dog chews shoes whose shoes does he choose?</p>
+                <div className="card-actions justify-end">
+                  <button className="btn btn-primary">Buy Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </main>
   );

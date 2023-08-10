@@ -2,7 +2,6 @@ import Sidebar from "@/components/Sidebar";
 import { useState, useEffect } from "react";
 import nookies from "nookies";
 import api from "@/api";
-import Image from "next/image";
 import LinksTable from "@/components/LinksTable";
 import {
   getAccountLinks,
@@ -11,6 +10,8 @@ import {
   updateLink,
 } from "@/api/services";
 import Input from "@/components/Input";
+import InputImage from "@/components/InputImage";
+import InputStatus from "@/components/InputStatus";
 
 export default function MyLinks() {
   const [userData, setUserData] = useState(null);
@@ -71,7 +72,7 @@ export default function MyLinks() {
     else setEditingLink({ ...editingLink, [name]: value });
   };
 
-  const handleIconChange = (e) => {
+  const handleChangeImage = (e) => {
     const file = e.target.files[0];
     if (file) {
       const imageURL = URL.createObjectURL(file);
@@ -140,78 +141,77 @@ export default function MyLinks() {
         <h1 className="text-4xl font-semibold mb-6">Dashboard</h1>
         <div className="bg-gradient-to-l from-blue-950 to-transparent">
           {userData ? (
-            <div className="bg-gradient-to-l from-blue-950 to-transparent">
-              <form onSubmit={handleSubmit} className="flex flex-col my-14">
-                <div className="flex flex-col">
-                  <div>
-                    <Input
-                      label="Title"
-                      isRequire
-                      name="title"
-                      placeholder="your account name..."
-                      value={isEditing ? editingLink.title : newLink.title}
-                      handleChangeInput={handleChangeInput}
-                    />
-                  </div>
+            <>
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-wrap gap-10 py-8 pr-32 justify-between w-5/6"
+              >
+                <div className="basis-2/4">
+                  <Input
+                    label="Title"
+                    isRequire
+                    name="title"
+                    placeholder="your account name..."
+                    value={isEditing ? editingLink.title : newLink.title}
+                    handleChangeInput={handleChangeInput}
+                  />
+                </div>
 
-                  <div>
-                    <Input
-                      label="Link"
-                      isRequire
-                      name="url"
-                      placeholder="your account link..."
-                      value={isEditing ? editingLink.url : newLink.url}
-                      handleChangeInput={handleChangeInput}
-                    />
-                  </div>
+                <div className="basis-1/3">
+                  <InputStatus
+                    label="Status"
+                    isRequire
+                    options={[
+                      { value: "active", label: "Active" },
+                      { value: "deactive", label: "Deactive" },
+                      { value: "suspend", label: "Suspend" },
+                    ]}
+                    name="status"
+                    selectedValue={
+                      isEditing ? editingLink.status : newLink.status
+                    }
+                    handleChange={handleChangeInput}
+                  />
+                </div>
 
-                  <label className="mr-4">Icon</label>
-                  <input
-                    type="file"
-                    name="photo"
-                    accept="image/*"
-                    onChange={handleIconChange}
+                <div className="basis-2/4">
+                  <Input
+                    label="Link"
+                    isRequire
+                    name="url"
+                    placeholder="your account link..."
+                    value={isEditing ? editingLink.url : newLink.url}
+                    handleChangeInput={handleChangeInput}
+                  />
+                </div>
+
+                <div className="flex flex-col basis-1/3 items-end">
+                  <InputImage
+                    label="Icon"
+                    selectedImage={selectedImage}
+                    handleImageChange={handleChangeImage}
                     // value={isEditing ? editingLink.icon : newLink.icon.data.attributes.formats.small}
                   />
-                  {selectedImage ? (
-                    <Image
-                      width={50}
-                      height={50}
-                      src={selectedImage}
-                      alt="Selected"
-                      className="mt-4 max-w-xs"
-                    />
-                  ) : (
-                    ""
-                  )}
                 </div>
-
-                <div className="form-control">
-                  <div className="input-group">
-                    <select
-                      className="select select-bordered"
-                      name="status"
-                      onChange={handleChangeInput}
-                      value={isEditing ? editingLink.status : newLink.status}
-                    >
-                      <option disabled selected>
-                        Status
-                      </option>
-                      <option value="active">Active</option>
-                      <option value="deactive">Deactive</option>
-                      <option value="suspend">Suspend</option>
-                    </select>
-                  </div>
-                </div>
-                <button type="submit">SIMPAN</button>
+                <button
+                  type="submit"
+                  className="btn btn-primary basis-1/4 m-auto"
+                >
+                  SAVE
+                </button>
               </form>
 
-              <LinksTable
-                accountLinks={accountLinks}
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
-              />
-            </div>
+              <div className="divider"></div>
+
+              <div className="flex flex-col">
+                <p className="text-3xl font-bold self-center my-10">My Links</p>
+                <LinksTable
+                  accountLinks={accountLinks}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
+              </div>
+            </>
           ) : (
             ""
           )}
