@@ -4,6 +4,8 @@ import nookies from "nookies";
 import api from "@/api";
 import Image from "next/image";
 import Input from "@/components/Input";
+import InputImage from "@/components/InputImage";
+import TextArea from "@/components/TextArea";
 
 export default function Dashboard() {
   const [userData, setUserData] = useState(null);
@@ -89,11 +91,10 @@ export default function Dashboard() {
               onSubmit={handleSubmit}
               className="flex flex-wrap gap-10 py-8 pr-32 justify-between w-5/6"
             >
-              <div className="basis-2/4 flex flex-col">
-                <label>
-                  Full Name <span className="text-red-500 align-middle">*</span>
-                </label>
+              <div className="basis-2/4">
                 <Input
+                  label="Full Name"
+                  isRequire
                   name="fullname"
                   placeholder="Your Name..."
                   handleChangeInput={handleChangeInput}
@@ -101,10 +102,9 @@ export default function Dashboard() {
               </div>
 
               <div className="basis-1/3">
-                <label>
-                  URL <span className="text-red-500 align-middle">*</span>
-                </label>
                 <Input
+                  label="URL"
+                  isRequire
                   name="slug"
                   placeholder="your.name"
                   handleChangeInput={handleChangeInput}
@@ -112,43 +112,20 @@ export default function Dashboard() {
               </div>
 
               <div className="basis-2/4">
-                <label>Bio</label>
-                <textarea
-                  type="text"
+                <TextArea
+                  label="Bio"
                   name="bio"
                   placeholder="I am..."
-                  onChange={handleChangeInput}
-                  className="input input-bordered w-full h-32 p-4 resize-none focus:border-2 focus:border-blue-500 mt-1 active:shadow-lg"
+                  handleChangeInput={handleChangeInput}
                 />
               </div>
 
               <div className="flex flex-col basis-1/3 items-end">
-                <label className="self-start mb-2">Photo</label>
-                {selectedImage ? (
-                  <Image
-                    width={500}
-                    height={500}
-                    src={selectedImage}
-                    alt="Selected"
-                  />
-                ) : (
-                  <Image
-                    width={500}
-                    height={500}
-                    src="https://via.placeholder.com/500x500"
-                    alt="Placeholder"
-                  />
-                )}
-                <label className="cursor-pointer mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md text-center">
-                  Choose File
-                  <input
-                    type="file"
-                    name="photo"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
-                </label>
+                <InputImage
+                  label="Photo"
+                  selectedImage={selectedImage}
+                  handleImageChange={handleImageChange}
+                />
               </div>
 
               <button

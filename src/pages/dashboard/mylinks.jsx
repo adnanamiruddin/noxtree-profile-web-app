@@ -10,6 +10,7 @@ import {
   deleteLink,
   updateLink,
 } from "@/api/services";
+import Input from "@/components/Input";
 
 export default function MyLinks() {
   const [userData, setUserData] = useState(null);
@@ -140,11 +141,30 @@ export default function MyLinks() {
         <div className="bg-gradient-to-l from-blue-950 to-transparent">
           {userData ? (
             <div className="bg-gradient-to-l from-blue-950 to-transparent">
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-col my-14"
-              >
+              <form onSubmit={handleSubmit} className="flex flex-col my-14">
                 <div className="flex flex-col">
+                  <div>
+                    <Input
+                      label="Title"
+                      isRequire
+                      name="title"
+                      placeholder="your account name..."
+                      value={isEditing ? editingLink.title : newLink.title}
+                      handleChangeInput={handleChangeInput}
+                    />
+                  </div>
+
+                  <div>
+                    <Input
+                      label="Link"
+                      isRequire
+                      name="url"
+                      placeholder="your account link..."
+                      value={isEditing ? editingLink.url : newLink.url}
+                      handleChangeInput={handleChangeInput}
+                    />
+                  </div>
+
                   <label className="mr-4">Icon</label>
                   <input
                     type="file"
@@ -165,15 +185,7 @@ export default function MyLinks() {
                     ""
                   )}
                 </div>
-                <label className="mr-4">Title</label>
-                <input
-                  type="text"
-                  name="title"
-                  placeholder="Type here"
-                  onChange={handleChangeInput}
-                  className="input input-bordered w-full max-w-xs"
-                  value={isEditing ? editingLink.title : newLink.title}
-                />
+
                 <div className="form-control">
                   <div className="input-group">
                     <select
@@ -191,15 +203,6 @@ export default function MyLinks() {
                     </select>
                   </div>
                 </div>
-                <label className="mr-4">URL</label>
-                <input
-                  type="text"
-                  name="url"
-                  placeholder="Type here"
-                  onChange={handleChangeInput}
-                  className="input input-bordered w-full max-w-xs"
-                  value={isEditing ? editingLink.url : newLink.url}
-                />
                 <button type="submit">SIMPAN</button>
               </form>
 
