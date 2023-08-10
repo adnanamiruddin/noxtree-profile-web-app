@@ -110,10 +110,19 @@ export default function MyLinks() {
       } else {
         formData.append("data", JSON.stringify(newLink));
         formData.append("files.icon", newLink.icon);
-        const success = await createLink(formData, userData.account, token);
+
+        const success = await createLink(formData, token);
         if (success) {
           const links = await getAccountLinks(userData.account.slug);
           setAccountLinks(links.data.data);
+          setNewLink({
+            title: "",
+            status: "active",
+            icon: null,
+            url: "",
+            account: null,
+          });
+          setSelectedImage(null);
         }
       }
     } catch (error) {
@@ -218,13 +227,14 @@ export default function MyLinks() {
                 <div className="flex flex-col w-full lg:basis-1/3 items-start lg:items-end">
                   <InputImage
                     label="Icon"
+                    name="icon"
                     selectedImage={selectedImage}
                     handleImageChange={handleChangeImage}
                     // value={isEditing ? editingLink.icon : newLink.icon.data.attributes.formats.small}
                   />
                 </div>
 
-                <ButtonSubmit />
+                <ButtonSubmit disabled={false} />
               </form>
 
               <UserCard userData={userData} />

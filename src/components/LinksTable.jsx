@@ -19,16 +19,21 @@ export default function LinksTable({ accountLinks, handleEdit, handleDelete }) {
             <tr key={index} className="hover">
               <th>{index + 1}</th>
               <td>
-                <div className="relative w-8 h-8">
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_ASSET_URL}${value.attributes.icon.data.attributes.url}`}
-                    alt={value.attributes.title}
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-full"
-                  />
-                </div>
+                {value.attributes.icon?.data?.attributes?.url ? (
+                  <div className="relative w-8 h-8">
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_ASSET_URL}${value.attributes.icon.data.attributes.url}`}
+                      alt={value.attributes.title}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-full"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+                )}
               </td>
+
               <td>{value.attributes.title}</td>
               <td>{value.attributes.status}</td>
               <td>{value.attributes.url}</td>

@@ -20,12 +20,12 @@ export default function UserCard({ userData }) {
   // }, [userData]);
 
   return (
-    <div className="w-full lg:w-3/12 bg-base-100 shadow-xl p-6 rounded-3xl rounded-r-none">
+    <div className="w-full lg:w-3/12 bg-base-100 shadow-xl p-6 lg:p-0 rounded-3xl rounded-r-none">
       <div className="card-body">
-        <h2 className="text-xl font-semibold mb-2">
-          {userData.account.fullname}
-        </h2>
-        <p className="text-gray-200 mb-4">{userData.account.bio}</p>
+        <h2 className="text-3xl font-bold mb-6">{userData.account.fullname}</h2>
+        <p className="text-gray-200 mb-4 text-justify">
+          {userData.account.bio}
+        </p>
         {userData.account.slug !== "(your.slug)" ? (
           <Link
             href={`/${userData.account.slug}`}

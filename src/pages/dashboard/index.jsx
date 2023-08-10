@@ -132,6 +132,7 @@ export default function Dashboard() {
               <div className="flex flex-col w-full lg:basis-1/3 items-start lg:items-end">
                 <InputImage
                   label="Photo"
+                  name="photo"
                   selectedImage={selectedImage}
                   handleImageChange={handleImageChange}
                 />
@@ -139,7 +140,7 @@ export default function Dashboard() {
 
               <ButtonSubmit
                 disabled={
-                  userData.account.fullname === "(Your Full Name...)"
+                  userData.account.fullname !== "(Your Full Name...)"
                     ? true
                     : false
                 }

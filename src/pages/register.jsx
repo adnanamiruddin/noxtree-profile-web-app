@@ -80,9 +80,15 @@ export default function Register() {
             </div>
           </form>
 
-          <Link href="/login">
-            <button className="text-blue-600 hover:underline text-sm w-full pb-8">
+          <Link href="/register">
+            <button className="text-blue-600 hover:underline text-sm w-full pb-4">
               Already have an account? Click for login
+            </button>
+          </Link>
+
+          <Link href="/" className="flex justify-end px-4 pt-2 pb-6">
+            <button className="btn btn-sm btn-outline btn-warning">
+              Back to Home
             </button>
           </Link>
         </div>

@@ -61,14 +61,20 @@ export default function Login() {
 
             <div className="form-control mt-6">
               <button className="btn btn-primary" type="submit">
-                Register
+                Login
               </button>
             </div>
           </form>
 
           <Link href="/register">
-            <button className="text-blue-600 hover:underline text-sm w-full pb-8">
+            <button className="text-blue-600 hover:underline text-sm w-full pb-4">
               Do not have an account? Click for registration
+            </button>
+          </Link>
+
+          <Link href="/" className="flex justify-end px-4 pt-2 pb-6">
+            <button className="btn btn-sm btn-outline btn-warning">
+              Back to Home
             </button>
           </Link>
         </div>

@@ -2,6 +2,7 @@ import Image from "next/image";
 
 export default function InputImage({
   label,
+  name,
   selectedImage,
   handleImageChange,
 }) {
@@ -22,7 +23,7 @@ export default function InputImage({
         Choose Image
         <input
           type="file"
-          name="photo"
+          name={name}
           accept="image/*"
           onChange={handleImageChange}
           className="hidden"
