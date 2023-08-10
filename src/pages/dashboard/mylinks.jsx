@@ -17,7 +17,13 @@ import Loading from "@/components/Loading";
 import ButtonSubmit from "@/components/ButtonSubmit";
 
 export default function MyLinks() {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({
+    account: {
+      fullname: "(Your Full Name...)",
+      bio: "(Your Bio...)",
+      slug: "(your.slug)",
+    },
+  });
   const [selectedImage, setSelectedImage] = useState(null);
   const [token, setToken] = useState(null);
   const [accountLinks, setAccountLinks] = useState([]);
@@ -51,9 +57,12 @@ export default function MyLinks() {
             },
           });
 
-          if (response.status === 200) {
-            setUserData(response.data);
+          if (response) {
             setNewLink({ ...newLink, account: response.data.account.id });
+          }
+
+          if (response.data.account) {
+            setUserData(response.data);
 
             const links = await getAccountLinks(response.data.account.slug);
             setAccountLinks(links.data.data);

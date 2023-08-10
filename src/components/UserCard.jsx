@@ -26,14 +26,16 @@ export default function UserCard({ userData }) {
           {userData.account.fullname}
         </h2>
         <p className="text-gray-200 mb-4">{userData.account.bio}</p>
-        <Link
-          href={`/${userData.account.slug}`}
-          className="text-blue-500 hover:underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {userData.account.slug}
-        </Link>
+        {userData.account.slug !== "(your.slug)" ? (
+          <Link
+            href={`/${userData.account.slug}`}
+            className="text-blue-500 hover:underline"
+          >
+            {userData.account.slug}
+          </Link>
+        ) : (
+          <span className="text-blue-500">{userData.account.slug}</span>
+        )}
       </div>
     </div>
   );

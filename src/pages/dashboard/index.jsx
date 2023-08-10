@@ -13,9 +13,9 @@ import ButtonSubmit from "@/components/ButtonSubmit";
 export default function Dashboard() {
   const [userData, setUserData] = useState({
     account: {
-      fullname: "(Your Full Name)",
-      bio: "",
-      slug: "",
+      fullname: "(Your Full Name...)",
+      bio: "(Your Bio...)",
+      slug: "(your.slug)",
     },
   });
   const [selectedImage, setSelectedImage] = useState(null);
@@ -41,11 +41,12 @@ export default function Dashboard() {
               Authorization: `Bearer ${token}`,
             },
           });
-          console.log(response);
 
+          if (response) {
+            setNewAccount({ ...newAccount, user: response.data.id });
+          }
           if (response.data.account) {
             setUserData(response.data);
-            setNewAccount({ ...newAccount, user: response.data.id });
           } else {
             console.error("Failed to fetch user data");
           }
@@ -77,10 +78,11 @@ export default function Dashboard() {
     try {
       const formData = new FormData();
 
-      formData.append("data", JSON.stringify(newAccount)); // Mengirim data sebagai string JSON
-      formData.append("files.photo", newAccount.photo); // Mengirim file gambar
+      formData.append("data", JSON.stringify(newAccount));
+      formData.append("files.photo", newAccount.photo);
 
-      await createAccount(formData, token);
+      const success = await createAccount(formData, token);
+      if (success) window.location.reload();
     } catch (error) {
       console.error("Error creating account:", error);
     }
