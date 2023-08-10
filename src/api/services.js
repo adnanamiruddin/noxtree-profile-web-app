@@ -53,6 +53,21 @@ const login = async (account) => {
   }
 };
 
+const register = async (account) => {
+  try {
+    const response = await api.post(`/auth/local/register`, account);
+    if (response.status === 200) {
+      nookies.set(null, "token", response.data.jwt);
+      Router.replace("/dashboard");
+    } else {
+      throw new Error("Login failed");
+    }
+  } catch (error) {
+    console.error(error);
+    throw Error(error);
+  }
+};
+
 const createAccount = async (accountData, token) => {
   try {
     await api.post(`${ENDPOINTS.accounts}`, accountData, {
@@ -115,6 +130,7 @@ export {
   getSelectedAccount,
   getAccountLinks,
   login,
+  register,
   createAccount,
   createLink,
   deleteLink,

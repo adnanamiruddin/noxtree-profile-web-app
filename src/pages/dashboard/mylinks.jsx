@@ -14,6 +14,7 @@ import InputImage from "@/components/InputImage";
 import InputStatus from "@/components/InputStatus";
 import UserCard from "@/components/UserCard";
 import Loading from "@/components/Loading";
+import ButtonSubmit from "@/components/ButtonSubmit";
 
 export default function MyLinks() {
   const [userData, setUserData] = useState(null);
@@ -36,37 +37,37 @@ export default function MyLinks() {
   });
   const [isEditing, setIsEditing] = useState(false);
 
-  // useEffect(() => {
-  //   const cookies = nookies.get();
-  //   const token = cookies.token;
+  useEffect(() => {
+    const cookies = nookies.get();
+    const token = cookies.token;
 
-  //   if (token) {
-  //     setToken(token);
-  //     const fetchUserData = async () => {
-  //       try {
-  //         const response = await api.get("/users/me?populate=*", {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         });
+    if (token) {
+      setToken(token);
+      const fetchUserData = async () => {
+        try {
+          const response = await api.get("/users/me?populate=*", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-  //         if (response.status === 200) {
-  //           setUserData(response.data);
-  //           setNewLink({ ...newLink, account: response.data.account.id });
+          if (response.status === 200) {
+            setUserData(response.data);
+            setNewLink({ ...newLink, account: response.data.account.id });
 
-  //           const links = await getAccountLinks(response.data.account.slug);
-  //           setAccountLinks(links.data.data);
-  //         } else {
-  //           console.error("Failed to fetch user data");
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching user data:", error);
-  //       }
-  //     };
+            const links = await getAccountLinks(response.data.account.slug);
+            setAccountLinks(links.data.data);
+          } else {
+            console.error("Failed to fetch user data");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
 
-  //     fetchUserData();
-  //   }
-  // }, []);
+      fetchUserData();
+    }
+  }, []);
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -139,7 +140,7 @@ export default function MyLinks() {
   return (
     <main className="lg:flex">
       <Sidebar />
-      <div className="p-6 pt-12 lg:pt-12 w-full mt-12 lg:mt-0">
+      <div className="p-6 lg:p-12 pt-12 w-full mt-12 lg:mt-0">
         <h1 className="text-4xl font-semibold mb-6">Dashboard</h1>
         <div>
           {accountLinks ? (
@@ -156,7 +157,9 @@ export default function MyLinks() {
               />
             </div>
           ) : (
-            <Loading />
+            <div className="-mt-72">
+              <Loading />
+            </div>
           )}
           {userData ? (
             <div className="bg-gradient-to-l from-blue-950 to-transparent flex flex-col-reverse lg:flex-row lg:py-8">
@@ -212,18 +215,15 @@ export default function MyLinks() {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  className="btn-primary basis-1/4 m-auto rounded-lg py-3 px-14 font-semibold text-white"
-                >
-                  SAVE
-                </button>
+                <ButtonSubmit />
               </form>
 
               <UserCard userData={userData} />
             </div>
           ) : (
-            <Loading />
+            <div className="-mt-72">
+              <Loading />
+            </div>
           )}
         </div>
       </div>

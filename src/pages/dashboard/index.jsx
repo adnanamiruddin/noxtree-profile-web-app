@@ -5,13 +5,19 @@ import api from "@/api";
 import Input from "@/components/Input";
 import InputImage from "@/components/InputImage";
 import TextArea from "@/components/TextArea";
-import Image from "next/image";
-import { getAccountLinks, getSelectedAccount } from "@/api/services";
-import Link from "next/link";
+import { createAccount } from "@/api/services";
 import UserCard from "@/components/UserCard";
+import Loading from "@/components/Loading";
+import ButtonSubmit from "@/components/ButtonSubmit";
 
 export default function Dashboard() {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({
+    account: {
+      fullname: "(Your Full Name)",
+      bio: "",
+      slug: "",
+    },
+  });
   const [selectedImage, setSelectedImage] = useState(null);
   const [newAccount, setNewAccount] = useState({
     fullname: "",
@@ -35,8 +41,9 @@ export default function Dashboard() {
               Authorization: `Bearer ${token}`,
             },
           });
+          console.log(response);
 
-          if (response.status === 200) {
+          if (response.data.account) {
             setUserData(response.data);
             setNewAccount({ ...newAccount, user: response.data.id });
           } else {
@@ -82,7 +89,7 @@ export default function Dashboard() {
   return (
     <main className="lg:flex">
       <Sidebar />
-      <div className="p-6 pt-12 lg:pt-12 w-full mt-12 lg:mt-0">
+      <div className="p-6 lg:p-12 pt-12 w-full mt-12 lg:mt-0">
         <h1 className="text-4xl font-semibold mb-6">Dashboard</h1>
         {userData ? (
           <div className="bg-gradient-to-l from-blue-950 to-transparent flex flex-col-reverse lg:flex-row">
@@ -127,18 +134,15 @@ export default function Dashboard() {
                 />
               </div>
 
-              <button
-                type="submit"
-                className="btn-primary basis-1/4 m-auto rounded-lg py-3 px-14 font-semibold text-white"
-              >
-                SAVE
-              </button>
+              <ButtonSubmit />
             </form>
 
             <UserCard userData={userData} />
           </div>
         ) : (
-          ""
+          <div className="-mt-32">
+            <Loading />
+          </div>
         )}
       </div>
     </main>

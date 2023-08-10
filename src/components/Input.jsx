@@ -1,4 +1,5 @@
 export default function Input({
+  type,
   label,
   isRequire,
   name,
@@ -13,7 +14,7 @@ export default function Input({
         {isRequire ? <span className="text-red-500 align-middle">*</span> : ""}
       </label>
       <input
-        type="text"
+        type={type ? type : "text"}
         name={name}
         placeholder={placeholder}
         onChange={handleChangeInput}
