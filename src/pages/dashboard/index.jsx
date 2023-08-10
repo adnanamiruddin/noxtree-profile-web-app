@@ -150,3 +150,17 @@ export default function Dashboard() {
     </main>
   );
 }
+
+export async function getServerSideProps(ctx) {
+  const cookies = nookies.get(ctx);
+  if (!cookies.token) {
+    return {
+      redirect: {
+        destination: "/login",
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}

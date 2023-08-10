@@ -1,5 +1,6 @@
 import { login } from "@/api/services";
 import { useState } from "react";
+import nookies from "nookies";
 
 export default function Login() {
   const [fields, setFields] = useState({
@@ -65,11 +66,27 @@ export default function Login() {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-primary" type="submit">Login</button>
+              <button className="btn btn-primary" type="submit">
+                Login
+              </button>
             </div>
           </form>
         </div>
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  const cookies = nookies.get(ctx);
+  if (cookies.token) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 }

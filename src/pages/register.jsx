@@ -1,6 +1,7 @@
 import { register } from "@/api/services";
 import Input from "@/components/Input";
 import { useState } from "react";
+import nookies from "nookies";
 
 export default function Register() {
   const [fields, setFields] = useState({
@@ -80,4 +81,18 @@ export default function Register() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  const cookies = nookies.get(ctx);
+  if (cookies.token) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 }
