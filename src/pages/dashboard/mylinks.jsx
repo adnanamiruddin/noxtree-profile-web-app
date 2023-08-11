@@ -80,7 +80,7 @@ export default function MyLinks() {
     }
   }, []);
 
-  const handleChangeInput = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (!isEditing) setNewLink({ ...newLink, [name]: value });
     else setEditingLink({ ...editingLink, [name]: value });
@@ -250,7 +250,7 @@ export default function MyLinks() {
                     name="title"
                     placeholder="your account name..."
                     value={isEditing ? editingLink.title : newLink.title}
-                    handleChangeInput={handleChangeInput}
+                    handleInputChange={handleInputChange}
                   />
                 </div>
 
@@ -267,7 +267,7 @@ export default function MyLinks() {
                     selectedValue={
                       isEditing ? editingLink.status : newLink.status
                     }
-                    handleChange={handleChangeInput}
+                    handleChange={handleInputChange}
                   />
                 </div>
 
@@ -278,7 +278,7 @@ export default function MyLinks() {
                     name="url"
                     placeholder="your account link..."
                     value={isEditing ? editingLink.url : newLink.url}
-                    handleChangeInput={handleChangeInput}
+                    handleInputChange={handleInputChange}
                   />
                 </div>
 
@@ -294,11 +294,10 @@ export default function MyLinks() {
                 <div className="w-full flex">
                   <Button
                     type="button"
-                    disabled={false}
                     onClick={handleClearFields}
                     label="CLEAR"
                   />
-                  <Button disabled={false} label="SAVE" />
+                  <Button label="SAVE" />
                 </div>
               </form>
 

@@ -5,7 +5,7 @@ export default function Input({
   name,
   placeholder,
   value,
-  handleChangeInput,
+  handleInputChange,
 }) {
   return (
     <>
@@ -17,7 +17,7 @@ export default function Input({
         type={type ? type : "text"}
         name={name}
         placeholder={placeholder}
-        onChange={handleChangeInput}
+        onChange={handleInputChange}
         value={value}
         className="input input-bordered w-full mt-1 focus:border-2 focus:border-blue-500 active:shadow-lg"
       />

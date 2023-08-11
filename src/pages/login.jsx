@@ -45,7 +45,7 @@ export default function Login() {
                   isRequire
                   name="identifier"
                   placeholder="youremail99@email.com"
-                  handleChangeInput={handleFieldChange}
+                  handleInputChange={handleFieldChange}
                 />
               </div>
 
@@ -56,7 +56,7 @@ export default function Login() {
                   isRequire
                   name="password"
                   placeholder="yourpassword"
-                  handleChangeInput={handleFieldChange}
+                  handleInputChange={handleFieldChange}
                 />
               </div>
             </div>

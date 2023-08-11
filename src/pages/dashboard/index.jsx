@@ -29,6 +29,12 @@ export default function Dashboard() {
     user: null,
   });
   const [token, setToken] = useState(null);
+  const [inputValues, setInputValues] = useState({
+    fullname: "",
+    bio: "",
+    slug: "",
+  });
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const cookies = nookies.get();
@@ -81,9 +87,36 @@ export default function Dashboard() {
     }
   }, []);
 
-  const handleChangeInput = (e) => {
+  // useEffect(() => {
+  //   if (userData.account.fullname) {
+  //     setInputValues((prevInputValues) => ({
+  //       ...prevInputValues,
+  //       fullname: userData.account.fullname,
+  //     }));
+  //   }
+
+  //   if (userData.account.slug) {
+  //     setInputValues((prevInputValues) => ({
+  //       ...prevInputValues,
+  //       slug: userData.account.slug,
+  //     }));
+  //   }
+
+  //   if (userData.account.bio) {
+  //     setInputValues((prevInputValues) => ({
+  //       ...prevInputValues,
+  //       bio: userData.account.bio,
+  //     }));
+  //   }
+  // }, [userData.account.fullname, userData.account.slug, userData.account.bio]);
+
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewAccount({ ...newAccount, [name]: value });
+    // setInputValues((prevInputValues) => ({
+    //   ...prevInputValues,
+    //   [name]: value,
+    // }));
   };
 
   const handleImageChange = (e) => {
@@ -134,8 +167,7 @@ export default function Dashboard() {
                   isRequire
                   name="fullname"
                   placeholder="Your Name..."
-                  value={userData.account.fullname ? userData.account.fullname : newAccount.fullname}
-                  handleChangeInput={handleChangeInput}
+                  handleInputChange={handleInputChange}
                 />
               </div>
 
@@ -145,8 +177,7 @@ export default function Dashboard() {
                   isRequire
                   name="slug"
                   placeholder="your.name"
-                  value={newAccount.slug}
-                  handleChangeInput={handleChangeInput}
+                  handleInputChange={handleInputChange}
                 />
               </div>
 
@@ -155,8 +186,7 @@ export default function Dashboard() {
                   label="Bio"
                   name="bio"
                   placeholder="I am..."
-                  value={newAccount.bio}
-                  handleChangeInput={handleChangeInput}
+                  handleInputChange={handleInputChange}
                 />
               </div>
 
@@ -170,10 +200,9 @@ export default function Dashboard() {
               </div>
 
               <Button
-                disabled={false}
                 label={
                   userData.account.fullname !== "(Your Full Name...)"
-                    ? "SAVE"
+                    ? "UPDATE"
                     : "SAVE"
                 }
               />

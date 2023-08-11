@@ -50,7 +50,7 @@ export default function Register() {
                   isRequire
                   name="username"
                   placeholder="yourusername99"
-                  handleChangeInput={handleFieldChange}
+                  handleInputChange={handleFieldChange}
                 />
               </div>
 
@@ -60,7 +60,7 @@ export default function Register() {
                   isRequire
                   name="email"
                   placeholder="youremail99@email.com"
-                  handleChangeInput={handleFieldChange}
+                  handleInputChange={handleFieldChange}
                 />
               </div>
 
@@ -71,7 +71,7 @@ export default function Register() {
                   isRequire
                   name="password"
                   placeholder="yourpassword"
-                  handleChangeInput={handleFieldChange}
+                  handleInputChange={handleFieldChange}
                 />
               </div>
             </div>

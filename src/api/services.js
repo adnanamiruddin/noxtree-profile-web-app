@@ -43,7 +43,7 @@ const getAccountLinks = async (slug) => {
 const login = async (account) => {
   try {
     const response = await api.post(`/auth/local`, account);
-    if (response.data.jwt) {
+    if (response.status === 200) {
       nookies.set(null, "token", response.data.jwt);
       Router.replace("/dashboard");
       setTimeout(() => {
@@ -58,7 +58,7 @@ const login = async (account) => {
 const register = async (account) => {
   try {
     const response = await api.post(`/auth/local/register`, account);
-    if (response.data.jwt) {
+    if (response.status === 200) {
       nookies.set(null, "token", response.data.jwt);
       Router.replace("/dashboard");
       setTimeout(() => {
