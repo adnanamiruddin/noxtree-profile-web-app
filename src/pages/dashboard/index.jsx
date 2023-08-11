@@ -9,9 +9,8 @@ import { createAccount } from "@/api/services";
 import UserCard from "@/components/UserCard";
 import Loading from "@/components/Loading";
 import ButtonSubmit from "@/components/ButtonSubmit";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import ToastNotif from "@/components/ToastNotif";
 
 export default function Dashboard() {
   const [userData, setUserData] = useState({
@@ -51,10 +50,10 @@ export default function Dashboard() {
           if (response.data.account) {
             setUserData(response.data);
           } else {
-            console.error("Failed to fetch user data");
+            toast.error("You don't have an account yet!");
           }
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          toast.error("Error fetching user data");
         }
       };
 
@@ -90,22 +89,13 @@ export default function Dashboard() {
         toast.success("Account created successfully!");
       }
     } catch (error) {
-      console.error("Error creating account:", error);
+      toast.error("Failed to create account");
     }
   };
 
   return (
     <main className="lg:flex">
-      <ToastContainer
-        position="bottom-right"
-        autoClose={4000}
-        theme="dark"
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        pauseOnFocusLoss
-        pauseOnHover
-      />
+      <ToastNotif />
       <Sidebar />
       <div className="p-6 lg:p-12 pt-12 w-full mt-12 sm:mt-16 lg:mt-0">
         <h1 className="text-4xl font-semibold">Dashboard</h1>

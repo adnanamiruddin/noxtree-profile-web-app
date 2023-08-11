@@ -15,9 +15,7 @@ import InputStatus from "@/components/InputStatus";
 import UserCard from "@/components/UserCard";
 import Loading from "@/components/Loading";
 import ButtonSubmit from "@/components/ButtonSubmit";
-
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import ToastNotif from "@/components/ToastNotif";
 
 export default function MyLinks() {
@@ -71,10 +69,10 @@ export default function MyLinks() {
             const links = await getAccountLinks(response.data.account.slug);
             setAccountLinks(links.data.data);
           } else {
-            console.error("Failed to fetch user data");
+            toast.error("You don't have an account yet!");
           }
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          toast.error("Error fetching user data");
         }
       };
 
@@ -147,7 +145,7 @@ export default function MyLinks() {
         toast.success("Link deleted successfully!");
       }
     } catch (error) {
-      console.error("Error deleting link:", error);
+      toast.error("Error deleting link!");
     }
   };
 
@@ -167,7 +165,7 @@ export default function MyLinks() {
         }
       }
     } catch (error) {
-      console.error("Error editing link:", error);
+      toast.error("Error editing link!");
     }
   };
 
