@@ -49,8 +49,6 @@ export default function Dashboard() {
           }
           if (response.data.account) {
             setUserData(response.data);
-          } else {
-            toast.error("You don't have an account yet!");
           }
         } catch (error) {
           toast.error("Error fetching user data");
@@ -85,8 +83,10 @@ export default function Dashboard() {
 
       const success = await createAccount(formData, token);
       if (success) {
-        window.location.reload();
         toast.success("Account created successfully!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }
     } catch (error) {
       toast.error("Failed to create account");

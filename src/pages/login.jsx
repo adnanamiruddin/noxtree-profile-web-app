@@ -3,7 +3,7 @@ import { useState } from "react";
 import nookies from "nookies";
 import Input from "@/components/Input";
 import Link from "next/link";
-import { toast } from "react-toastify";
+import ToastNotif from "@/components/ToastNotif";
 
 export default function Login() {
   const [fields, setFields] = useState({
@@ -20,16 +20,12 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const success = login(fields);
-      if (success) toast.success("Welcome back 👋😅 How are you? 😀");
-    } catch (error) {
-      toast.error("Failed to login! 🗿");
-    }
+    login(fields);
   };
 
   return (
     <div className="hero min-h-screen">
+      <ToastNotif />
       <div className="hero-content flex-col lg:flex-row-reverse p-8">
         <div className="text-center lg:ml-12 lg:text-left lg:w-3/6">
           <h1 className="text-5xl font-bold text-center tracking-wide">

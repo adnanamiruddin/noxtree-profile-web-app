@@ -68,8 +68,6 @@ export default function MyLinks() {
 
             const links = await getAccountLinks(response.data.account.slug);
             setAccountLinks(links.data.data);
-          } else {
-            toast.error("You don't have an account yet!");
           }
         } catch (error) {
           toast.error("Error fetching user data");

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import nookies from "nookies";
+import { toast } from "react-toastify";
 
 export default function Sidebar() {
   const router = useRouter();
@@ -8,6 +9,9 @@ export default function Sidebar() {
   const handleLogout = () => {
     nookies.destroy(null, "token");
     Router.replace("/");
+    setTimeout(() => {
+      toast.info("Thank you for using NoxTree! 😎 See you soon! 👋😄");
+    }, 500);
   };
 
   return (

@@ -1,6 +1,7 @@
 import api from ".";
 import nookies from "nookies";
 import Router from "next/router";
+import { toast } from "react-toastify";
 
 const ENDPOINTS = {
   accounts: "/accounts",
@@ -42,40 +43,42 @@ const getAccountLinks = async (slug) => {
 const login = async (account) => {
   try {
     const response = await api.post(`/auth/local`, account);
-    if (response.status === 200) {
+    if (response.data.jwt) {
       nookies.set(null, "token", response.data.jwt);
       Router.replace("/dashboard");
-    } else {
-      throw new Error("Login failed");
+      setTimeout(() => {
+        toast.success("Welcome back ngab 👋😅 How are you? 😀");
+      }, 500);
     }
   } catch (error) {
-    throw Error(error);
+    toast.error("Failed to login! 🗿");
   }
 };
 
 const register = async (account) => {
   try {
     const response = await api.post(`/auth/local/register`, account);
-    if (response.status === 200) {
+    if (response.data.jwt) {
       nookies.set(null, "token", response.data.jwt);
       Router.replace("/dashboard");
-    } else {
-      throw new Error("Login failed");
+      setTimeout(() => {
+        toast.success("Welcome ngab 👋😁 Lets manage your NoxTree links! 😎");
+      }, 500);
     }
   } catch (error) {
-    throw Error(error);
+    toast.error("Failed to regist! 🗿");
   }
 };
 
 const createAccount = async (accountData, token) => {
   try {
-    await api.post(`${ENDPOINTS.accounts}`, accountData, {
+    const response = await api.post(`${ENDPOINTS.accounts}`, accountData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });
-    return true;
+    if (response.status === 200) return true;
   } catch (error) {
     throw Error(error);
   }

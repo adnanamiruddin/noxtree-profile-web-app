@@ -23,13 +23,13 @@ export default function UserCard({ userData }) {
     <div className="w-full lg:w-3/12 bg-base-100 shadow-xl p-6 lg:p-0 rounded-3xl rounded-r-none">
       <div className="card-body">
         <h2 className="text-3xl font-bold mb-6">{userData.account.fullname}</h2>
-        <p className="text-gray-200 mb-4 text-justify">
-          {userData.account.bio}
-        </p>
+        <p className="text-gray-200 mb-4 text-left">{userData.account.bio}</p>
         {userData.account.slug !== "(your.slug)" ? (
           <Link
             href={`/${userData.account.slug}`}
             className="text-blue-500 hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             {userData.account.slug}
           </Link>
