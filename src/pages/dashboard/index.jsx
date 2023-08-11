@@ -5,7 +5,7 @@ import api from "@/api";
 import Input from "@/components/Input";
 import InputImage from "@/components/InputImage";
 import TextArea from "@/components/TextArea";
-import { createAccount } from "@/api/services";
+import { createAccount, getSelectedAccount } from "@/api/services";
 import UserCard from "@/components/UserCard";
 import Loading from "@/components/Loading";
 import Button from "@/components/Button";
@@ -49,6 +49,28 @@ export default function Dashboard() {
           }
           if (response.data.account) {
             setUserData(response.data);
+
+            const account = await getSelectedAccount(
+              response.data.account.slug
+            );
+
+            if (account.data.data[0].attributes.photo?.data?.attributes?.url) {
+              const photoUrl = `${process.env.NEXT_PUBLIC_ASSET_URL}${account.data.data[0].attributes.photo.data.attributes.url}`;
+              const response = await fetch(photoUrl);
+              const blob = await response.blob();
+
+              const imageFile = new File([blob], "photo.jpg", {
+                type: "image/jpeg",
+              });
+
+              setSelectedImage(photoUrl);
+              setNewAccount((prevNewAccount) => ({
+                ...prevNewAccount,
+                photo: imageFile,
+              }));
+            } else {
+              setSelectedImage(null);
+            }
           }
         } catch (error) {
           toast.error("Error fetching user data");
@@ -112,6 +134,7 @@ export default function Dashboard() {
                   isRequire
                   name="fullname"
                   placeholder="Your Name..."
+                  value={userData.account.fullname ? userData.account.fullname : newAccount.fullname}
                   handleChangeInput={handleChangeInput}
                 />
               </div>
@@ -122,6 +145,7 @@ export default function Dashboard() {
                   isRequire
                   name="slug"
                   placeholder="your.name"
+                  value={newAccount.slug}
                   handleChangeInput={handleChangeInput}
                 />
               </div>
@@ -131,11 +155,12 @@ export default function Dashboard() {
                   label="Bio"
                   name="bio"
                   placeholder="I am..."
+                  value={newAccount.bio}
                   handleChangeInput={handleChangeInput}
                 />
               </div>
 
-              <div className="flex flex-col w-full lg:basis-1/3 items-start lg:items-end">
+              <div className="flex flex-col w-full lg:basis-1/3 items-start">
                 <InputImage
                   label="Photo"
                   name="photo"
@@ -145,11 +170,7 @@ export default function Dashboard() {
               </div>
 
               <Button
-                disabled={
-                  userData.account.fullname !== "(Your Full Name...)"
-                    ? true
-                    : false
-                }
+                disabled={false}
                 label={
                   userData.account.fullname !== "(Your Full Name...)"
                     ? "SAVE"
