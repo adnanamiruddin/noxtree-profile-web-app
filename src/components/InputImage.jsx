@@ -10,12 +10,12 @@ export default function InputImage({
     <>
       <label className="self-start mb-2">{label}</label>
       {selectedImage ? (
-        <Image width={500} height={500} src={selectedImage} alt="Selected" />
+        <Image width={200} height={200} src={selectedImage} alt="Selected" />
       ) : (
         <Image
-          width={500}
-          height={500}
-          src="https://via.placeholder.com/500x500"
+          width={200}
+          height={200}
+          src="https://via.placeholder.com/200x200"
           alt="Placeholder"
         />
       )}

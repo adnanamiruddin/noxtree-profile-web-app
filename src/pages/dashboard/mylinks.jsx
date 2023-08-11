@@ -129,6 +129,7 @@ export default function MyLinks() {
           toast.success("Link created successfully!");
         }
       }
+      setSelectedImage(null);
     } catch (error) {
       toast.error("Error creating link!");
     }
@@ -154,10 +155,21 @@ export default function MyLinks() {
         setEditingLinkId(linkToEdit.id);
         setEditingLink(linkToEdit.attributes);
         setIsEditing(true);
+
         if (linkToEdit.attributes.icon?.data?.attributes?.url) {
-          setSelectedImage(
-            `${process.env.NEXT_PUBLIC_ASSET_URL}${linkToEdit.attributes.icon.data.attributes.url}`
-          );
+          const imageUrl = `${process.env.NEXT_PUBLIC_ASSET_URL}${linkToEdit.attributes.icon.data.attributes.url}`;
+          const response = await fetch(imageUrl);
+          const blob = await response.blob();
+
+          const imageFile = new File([blob], "icon.jpg", {
+            type: "image/jpeg",
+          });
+
+          setSelectedImage(imageUrl);
+          setEditingLink((prevEditingLink) => ({
+            ...prevEditingLink,
+            icon: imageFile,
+          }));
         } else {
           setSelectedImage(null);
         }
@@ -177,8 +189,10 @@ export default function MyLinks() {
         <div>
           {accountLinks ? (
             <div className="flex flex-col mb-14">
-              <p className="text-3xl font-bold self-center mb-4">My Links</p>
-              <p className="text-sm self-center mb-8">
+              <p className="text-3xl font-bold self-center mb-4 lg:mb-8">
+                My Links
+              </p>
+              <p className="text-sm self-center mb-8 block lg:hidden">
                 You can edit and delete links by swiping right
               </p>
               <LinksTable
@@ -237,7 +251,7 @@ export default function MyLinks() {
                   />
                 </div>
 
-                <div className="flex flex-col w-full lg:basis-1/3 items-start lg:items-end">
+                <div className="flex flex-col w-full lg:basis-1/3 items-start">
                   <InputImage
                     label="Icon"
                     name="icon"
