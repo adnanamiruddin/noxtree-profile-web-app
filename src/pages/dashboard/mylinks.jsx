@@ -18,6 +18,7 @@ import ButtonSubmit from "@/components/ButtonSubmit";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MyToast from "@/components/MyToast";
 
 export default function MyLinks() {
   const [userData, setUserData] = useState({
@@ -171,16 +172,7 @@ export default function MyLinks() {
 
   return (
     <main className="lg:flex">
-      <ToastContainer
-        position="bottom-right"
-        autoClose={4000}
-        theme="dark"
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        pauseOnFocusLoss
-        pauseOnHover
-      />
+      <MyToast />
       <Sidebar />
       <div className="p-6 lg:p-12 pt-12 w-full mt-12 sm:mt-16 lg:mt-0">
         <h1 className="text-4xl font-semibold">Dashboard</h1>

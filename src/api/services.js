@@ -63,7 +63,6 @@ const register = async (account) => {
       throw new Error("Login failed");
     }
   } catch (error) {
-    console.error(error);
     throw Error(error);
   }
 };
@@ -84,13 +83,13 @@ const createAccount = async (accountData, token) => {
 
 const createLink = async (linkData, token) => {
   try {
-    await api.post(`${ENDPOINTS.links}`, linkData, {
+    const response = await api.post(`${ENDPOINTS.links}`, linkData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });
-    return true;
+    if (response.status === 200) return true;
   } catch (error) {
     throw Error(error);
   }
@@ -98,12 +97,12 @@ const createLink = async (linkData, token) => {
 
 const deleteLink = async (linkId, token) => {
   try {
-    await api.delete(`${ENDPOINTS.links}/${linkId}`, {
+    const response = await api.delete(`${ENDPOINTS.links}/${linkId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    return true;
+    if (response.status === 200) return true;
   } catch (error) {
     throw Error(error);
   }
@@ -117,10 +116,8 @@ const updateLink = async (linkId, linkData, token) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(response);
-    return true;
+    if (response.status === 200) return true;
   } catch (error) {
-    console.error(error);
     throw Error(error);
   }
 };

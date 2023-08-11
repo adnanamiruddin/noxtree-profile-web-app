@@ -8,7 +8,7 @@ const Navbar = () => {
         <a className="btn btn-ghost text-xl md:text-2xl">NoxTree</a>
       </div>
       <div>
-        <ul className="flex gap-4 md:gap-6">
+        <ul className="flex gap-4">
           <li>
             <Link href="/login">
               <button className="btn btn-sm md:btn-md btn-primary">

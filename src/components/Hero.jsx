@@ -10,7 +10,7 @@ const Hero = ({ handlePreviewClick }) => {
     >
       <div className="hero-overlay bg-opacity-60"></div>
       <div className="hero-content text-center text-neutral-content">
-        <div className="max-w-md">
+        <div className="max-w-lg">
           <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
           <p className="mb-5 text-gray-300">
             NoxTree is your personal link management tool, designed to help you
