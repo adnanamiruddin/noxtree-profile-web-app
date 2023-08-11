@@ -15,16 +15,16 @@ const Preview = ({ previewRef }) => {
             width={500}
             height={500}
             alt="Picture of the author"
-            className="max-w-sm rounded-lg shadow-2xl mt-8 hidden md:block"
+            className="max-w-sm rounded-lg shadow-2xl mt-8 hidden sm:block"
           />
           <Image
             src="/preview.png"
             width={300}
             height={300}
             alt="Picture of the author"
-            className="max-w-sm rounded-lg shadow-2xl mt-8 block md:hidden"
+            className="max-w-sm rounded-lg shadow-2xl mt-8 block sm:hidden"
           />
-          <p className="mt-2 sm:mt-4 pb-4 sm:pb-0 text-sm text-center text-blue-500 hover:underline">
+          <p className="mt-2 sm:mt-4 pb-4 sm:pb-0 text-sm sm:text-base text-center text-blue-500 hover:underline">
             Click to view
           </p>
         </Link>
