@@ -17,6 +17,7 @@ import Loading from "@/components/Loading";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { toast } from "react-toastify";
 import ToastNotif from "@/components/ToastNotif";
+import ConfirmDeleteModal from "@/components/ConfirmDeleteModal";
 
 export default function MyLinks() {
   const [userData, setUserData] = useState({
@@ -44,6 +45,7 @@ export default function MyLinks() {
     url: "",
   });
   const [isEditing, setIsEditing] = useState(false);
+  const [deleteLinkId, setDeleteLinkId] = useState(null);
 
   useEffect(() => {
     const cookies = nookies.get();
@@ -135,17 +137,22 @@ export default function MyLinks() {
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      const success = await deleteLink(id, token);
-      if (success) {
-        const links = await getAccountLinks(userData.account.slug);
-        setAccountLinks(links.data.data);
-        toast.success("Link deleted successfully!");
-      }
-    } catch (error) {
-      toast.error("Error deleting link!");
+  const handleDelete = (id) => {
+    setDeleteLinkId(id);
+    window.my_delete_modal.showModal();
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (deleteLinkId) {
+      await deleteLink(deleteLinkId, token);
+      const links = await getAccountLinks(userData.account.slug);
+      setAccountLinks(links.data.data);
+      setDeleteLinkId(null);
     }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteLinkId(null);
   };
 
   const handleEdit = async (id) => {
@@ -186,6 +193,7 @@ export default function MyLinks() {
       <div className="p-6 lg:p-12 pt-12 w-full mt-12 sm:mt-16 lg:mt-0">
         <h1 className="text-4xl font-semibold">Dashboard</h1>
         <div className="divider my-6" />
+
         <div>
           {accountLinks ? (
             <div className="flex flex-col mb-14">
@@ -200,12 +208,17 @@ export default function MyLinks() {
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
               />
+              <ConfirmDeleteModal
+                handleDeleteConfirm={handleDeleteConfirm}
+                handleCancel={handleDeleteCancel}
+              />
             </div>
           ) : (
             <div className="-mt-72">
               <Loading />
             </div>
           )}
+
           {userData ? (
             <div className="bg-gradient-to-l from-blue-950 to-transparent flex flex-col-reverse lg:flex-row lg:py-8">
               <form
@@ -257,7 +270,6 @@ export default function MyLinks() {
                     name="icon"
                     selectedImage={selectedImage}
                     handleImageChange={handleChangeImage}
-                    // value={isEditing ? editingLink.icon : newLink.icon.data.attributes.formats.small}
                   />
                 </div>
 
