@@ -8,7 +8,7 @@ import TextArea from "@/components/TextArea";
 import { createAccount } from "@/api/services";
 import UserCard from "@/components/UserCard";
 import Loading from "@/components/Loading";
-import ButtonSubmit from "@/components/ButtonSubmit";
+import Button from "@/components/Button";
 import { toast } from "react-toastify";
 import ToastNotif from "@/components/ToastNotif";
 
@@ -144,11 +144,16 @@ export default function Dashboard() {
                 />
               </div>
 
-              <ButtonSubmit
+              <Button
                 disabled={
                   userData.account.fullname !== "(Your Full Name...)"
                     ? true
                     : false
+                }
+                label={
+                  userData.account.fullname !== "(Your Full Name...)"
+                    ? "SAVE"
+                    : "SAVE"
                 }
               />
             </form>

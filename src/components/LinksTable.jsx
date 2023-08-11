@@ -36,7 +36,15 @@ export default function LinksTable({ accountLinks, handleEdit, handleDelete }) {
 
               <td>{value.attributes.title}</td>
               <td>{value.attributes.status}</td>
-              <td>{value.attributes.url}</td>
+              <td>
+                <a
+                  href={value.attributes.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {value.attributes.url}
+                </a>
+              </td>
               <td className="flex gap-2">
                 <button
                   className="bg-blue-500 text-white btn"

@@ -14,7 +14,7 @@ import InputImage from "@/components/InputImage";
 import InputStatus from "@/components/InputStatus";
 import UserCard from "@/components/UserCard";
 import Loading from "@/components/Loading";
-import ButtonSubmit from "@/components/ButtonSubmit";
+import Button from "@/components/Button";
 import { toast } from "react-toastify";
 import ToastNotif from "@/components/ToastNotif";
 import ConfirmDeleteModal from "@/components/ConfirmDeleteModal";
@@ -137,24 +137,6 @@ export default function MyLinks() {
     }
   };
 
-  const handleDelete = (id) => {
-    setDeleteLinkId(id);
-    window.my_delete_modal.showModal();
-  };
-
-  const handleDeleteConfirm = async () => {
-    if (deleteLinkId) {
-      await deleteLink(deleteLinkId, token);
-      const links = await getAccountLinks(userData.account.slug);
-      setAccountLinks(links.data.data);
-      setDeleteLinkId(null);
-    }
-  };
-
-  const handleDeleteCancel = () => {
-    setDeleteLinkId(null);
-  };
-
   const handleEdit = async (id) => {
     try {
       const linkToEdit = accountLinks.find((link) => link.id === id);
@@ -184,6 +166,42 @@ export default function MyLinks() {
     } catch (error) {
       toast.error("Error editing link!");
     }
+  };
+
+  const handleDelete = (id) => {
+    setDeleteLinkId(id);
+    window.my_delete_modal.showModal();
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (deleteLinkId) {
+      await deleteLink(deleteLinkId, token);
+      const links = await getAccountLinks(userData.account.slug);
+      setAccountLinks(links.data.data);
+      setDeleteLinkId(null);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteLinkId(null);
+  };
+
+  const handleClearFields = () => {
+    setSelectedImage(null);
+    setEditingLinkId(null);
+    setEditingLink({
+      title: "",
+      status: "active",
+      icon: null,
+      url: "",
+    });
+    setNewLink({
+      title: "",
+      status: "active",
+      icon: null,
+      url: "",
+      account: userData.account.id,
+    });
   };
 
   return (
@@ -273,7 +291,15 @@ export default function MyLinks() {
                   />
                 </div>
 
-                <ButtonSubmit disabled={false} />
+                <div className="w-full flex">
+                  <Button
+                    type="button"
+                    disabled={false}
+                    onClick={handleClearFields}
+                    label="CLEAR"
+                  />
+                  <Button disabled={false} label="SAVE" />
+                </div>
               </form>
 
               <UserCard userData={userData} />
