@@ -68,13 +68,17 @@ export default function SlugPage({ data }) {
                   className="w-full h-full relative"
                   style={{ paddingBottom: "100%" }}
                 >
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_ASSET_URL}${value.attributes.icon.data.attributes.url}`}
-                    alt={value.attributes.title}
-                    layout="fill"
-                    objectFit="cover"
-                    className="absolute rounded-full"
-                  />
+                  {value.attributes.icon?.data?.attributes?.url ? (
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_ASSET_URL}${value.attributes.icon.data.attributes.url}`}
+                      alt={value.attributes.title}
+                      layout="fill"
+                      objectFit="cover"
+                      className="absolute rounded-full"
+                    />
+                  ) : (
+                    <div className="absolute w-12 h-10 bg-gray-300 rounded-full"></div>
+                  )}
                 </div>
               </div>
               <span className="text-lg">{value.attributes.title}</span>

@@ -16,9 +16,9 @@ import UserCard from "@/components/UserCard";
 import Loading from "@/components/Loading";
 import ButtonSubmit from "@/components/ButtonSubmit";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import MyToast from "@/components/MyToast";
+import ToastNotif from "@/components/ToastNotif";
 
 export default function MyLinks() {
   const [userData, setUserData] = useState({
@@ -134,7 +134,7 @@ export default function MyLinks() {
         }
       }
     } catch (error) {
-      console.error("Error creating account:", error);
+      toast.error("Error creating link!");
     }
   };
 
@@ -144,6 +144,7 @@ export default function MyLinks() {
       if (success) {
         const links = await getAccountLinks(userData.account.slug);
         setAccountLinks(links.data.data);
+        toast.success("Link deleted successfully!");
       }
     } catch (error) {
       console.error("Error deleting link:", error);
@@ -162,17 +163,17 @@ export default function MyLinks() {
             `${process.env.NEXT_PUBLIC_ASSET_URL}${linkToEdit.attributes.icon.data.attributes.url}`
           );
         } else {
-          setSelectedImage(null); // Atau sesuaikan dengan nilai default yang diinginkan
+          setSelectedImage(null);
         }
       }
     } catch (error) {
-      console.error("Error editting link:", error);
+      console.error("Error editing link:", error);
     }
   };
 
   return (
     <main className="lg:flex">
-      <MyToast />
+      <ToastNotif />
       <Sidebar />
       <div className="p-6 lg:p-12 pt-12 w-full mt-12 sm:mt-16 lg:mt-0">
         <h1 className="text-4xl font-semibold">Dashboard</h1>

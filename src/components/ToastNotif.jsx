@@ -1,6 +1,6 @@
 import { ToastContainer } from "react-toastify";
 
-export default function MyToast() {
+export default function ToastNotif() {
   return (
     <ToastContainer
       position="bottom-right"
