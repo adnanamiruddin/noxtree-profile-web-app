@@ -3,6 +3,7 @@ import Input from "@/components/Input";
 import { useState } from "react";
 import nookies from "nookies";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const [fields, setFields] = useState({
@@ -22,7 +23,13 @@ export default function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    register(fields);
+    try {
+      const success = register(fields);
+      if (success)
+        toast.success("Welcome 👋😁 Lets manage your NoxTree links! 😎");
+    } catch (error) {
+      toast.error("Failed to register! 🗿");
+    }
   };
 
   return (
@@ -81,7 +88,7 @@ export default function Register() {
           </form>
 
           <Link href="/register">
-            <button className="text-blue-600 hover:underline text-sm w-full pb-4">
+            <button className="text-blue-500 hover:underline text-sm w-full pb-4">
               Already have an account? Click for login
             </button>
           </Link>

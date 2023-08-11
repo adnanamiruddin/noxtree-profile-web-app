@@ -3,6 +3,7 @@ import { useState } from "react";
 import nookies from "nookies";
 import Input from "@/components/Input";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [fields, setFields] = useState({
@@ -19,7 +20,12 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(fields);
+    try {
+      const success = login(fields);
+      if (success) toast.success("Welcome back 👋😅 How are you? 😀");
+    } catch (error) {
+      toast.error("Failed to login! 🗿");
+    }
   };
 
   return (
@@ -67,7 +73,7 @@ export default function Login() {
           </form>
 
           <Link href="/register">
-            <button className="text-blue-600 hover:underline text-sm w-full pb-4">
+            <button className="text-blue-500 hover:underline text-sm w-full pb-4">
               Do not have an account? Click for registration
             </button>
           </Link>

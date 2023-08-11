@@ -44,7 +44,7 @@ export default function Sidebar() {
         <div className="relative">
           <button
             onClick={handleLogout}
-            className={`bg-red-700 hover:brightness-125 py-2 px-4 rounded cursor-pointer text-xs sm:text-base font-semibold text-white absolute bottom-0 left-0 lg:w-full`}
+            className={`bg-red-700 hover:brightness-125 py-2 px-4 rounded cursor-pointer text-base font-semibold text-white absolute bottom-0 left-0 lg:w-full`}
           >
             Logout
           </button>
