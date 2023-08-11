@@ -29,11 +29,6 @@ export default function Dashboard() {
     user: null,
   });
   const [token, setToken] = useState(null);
-  const [inputValues, setInputValues] = useState({
-    fullname: "",
-    bio: "",
-    slug: "",
-  });
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -87,36 +82,9 @@ export default function Dashboard() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (userData.account.fullname) {
-  //     setInputValues((prevInputValues) => ({
-  //       ...prevInputValues,
-  //       fullname: userData.account.fullname,
-  //     }));
-  //   }
-
-  //   if (userData.account.slug) {
-  //     setInputValues((prevInputValues) => ({
-  //       ...prevInputValues,
-  //       slug: userData.account.slug,
-  //     }));
-  //   }
-
-  //   if (userData.account.bio) {
-  //     setInputValues((prevInputValues) => ({
-  //       ...prevInputValues,
-  //       bio: userData.account.bio,
-  //     }));
-  //   }
-  // }, [userData.account.fullname, userData.account.slug, userData.account.bio]);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewAccount({ ...newAccount, [name]: value });
-    // setInputValues((prevInputValues) => ({
-    //   ...prevInputValues,
-    //   [name]: value,
-    // }));
   };
 
   const handleImageChange = (e) => {
@@ -138,10 +106,21 @@ export default function Dashboard() {
 
       const success = await createAccount(formData, token);
       if (success) {
+        const response = await api.get("/users/me?populate=*", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.data.account) {
+          setUserData(response.data);
+          setNewAccount({
+            ...newAccount,
+            fullname: "",
+            bio: "",
+            slug: "",
+          });
+        }
         toast.success("Account created successfully!");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
       }
     } catch (error) {
       toast.error("Failed to create account");
